@@ -1,0 +1,9 @@
+mysqldump --opt -u root -proot db_spacial_patients > db_spacial_patients.sql
+
+
+คำสั่ง git
+-git add .
+-git commit -m "message"
+-git push
+
+git clone https://github.com/thananchai2545/project_patients
