@@ -10,6 +10,10 @@ import toolPage from '../pages/toolPage.vue'
 import symptomPage from '../pages/symptomPage.vue'
 import casePage from '../pages/casePage.vue'
 import casePageDetail from '../pages/casePageDetail.vue'
+import hospitalPage from '../pages/hospitalPage.vue'
+import exacerbationPage from '../pages/ExacerbationPage.vue'
+import non_emergancyPage from '../pages/Non_emergancyPage.vue'
+import non_emergancyPage_Detail from '../pages/Non_emergancyPage_Detail.vue'
 // import { image } from '@vee-validate/rules'
 import axios from 'axios'
 // import store from '../store'
@@ -22,7 +26,12 @@ const routes = [
     { path: '/user', component: userPage, meta: { requiresAuth: true } },
     { path: '/tool', component: toolPage, meta: { requiresAuth: true } },
     { path: '/symptom', component: symptomPage, meta: { requiresAuth: true } },
-    { path: '/case', component: casePage, meta: { requiresAuth: true } },
+    // { path: '/case', component: casePage, meta: { requiresAuth: true } },
+    { path: '/case/accident', component: casePage, meta: { requiresAuth: true } },
+    { path: '/case/exacerbation', component: exacerbationPage, meta: { requiresAuth: true } },
+    { path: '/case/non_emergancy', component: non_emergancyPage, meta: { requiresAuth: true } },
+    { path: '/case/non_emergancy/:id', component: non_emergancyPage_Detail, meta: { requiresAuth: true } },
+    { path: '/hospital', component: hospitalPage, meta: { requiresAuth: true } },
     { path: '/case/detail/:id', component: casePageDetail, meta: { requiresAuth: true } },
     { path: '/test', component: TestPage }
 ]

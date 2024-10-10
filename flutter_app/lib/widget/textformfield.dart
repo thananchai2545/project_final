@@ -11,7 +11,7 @@ class CustomInputDecoration {
       isDense: true,
       filled: true,
       label: Text(name),
-      labelStyle: TextStyle(color: Colors.black),
+      labelStyle: const TextStyle(color: Colors.black),
       suffixIcon: icon,
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10.0),

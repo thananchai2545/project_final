@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fawmi/vue-google-maps": "^0.9.79",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@vee-validate/i18n": "^4.12.8",
     "@vee-validate/rules": "^4.12.8",
     "axios": "^1.6.8",
@@ -29,6 +29,7 @@
     "vue": "^3.4.21",
     "vue-easy-lightbox": "^1.19.0",
     "vue-router": "^4.3.2",
+    "vue3-google-map": "^0.21.0",
     "vuex": "^4.1.0",
     "yup": "^1.4.0"
   },

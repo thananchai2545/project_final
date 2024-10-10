@@ -11,7 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
 class Accident extends StatefulWidget {
-  const Accident({Key? key}) : super(key: key);
+  const Accident({super.key});
 
   @override
   _AccidentState createState() => _AccidentState();
@@ -26,7 +26,7 @@ class _AccidentState extends State<Accident> {
   late Future<List<SymptomModel>> futureDataSymtom;
   List symtomSelect = [];
   final TextEditingController other_symptoms = TextEditingController();
-  final TextEditingController number_patients = TextEditingController();
+  // final TextEditingController number_patients = TextEditingController();
 
   @override
   void initState() {
@@ -75,9 +75,9 @@ class _AccidentState extends State<Accident> {
       // other_symptoms.text = null;
       // Null d = null;
       // other_symptoms.text = '';
-      List data_patient = [
+      List dataPatient = [
         {
-          "case_number_patients": number_patients.text,
+          // "case_number_patients": number_patients.text,
           "case_breathe": selected_breathe,
           "case_symtomSelect": symtomSelect,
           "case_other_symptoms": other_symptoms.text
@@ -85,7 +85,8 @@ class _AccidentState extends State<Accident> {
       ];
       print(other_symptoms.text.isEmpty);
       // null;
-      context.push('/accident/accident_map', extra: data_patient);
+      context.push('/emergencypatient/accident/accident_map',
+          extra: dataPatient);
     }
   }
 
@@ -113,46 +114,46 @@ class _AccidentState extends State<Accident> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
             child: Column(children: [
-              Center(
-                child: ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text('จำนวนผู้ป่วย/บาดเจ็บ ณ ที่เกิดเหตุ'),
-                  subtitle: Container(
-                    // height: 50,
-                    margin: EdgeInsets.only(top: 10),
-                    child: TextFormField(
-                      validator: (text) {
-                        if (text == null || text.isEmpty) {
-                          return 'โปรดป้อนจำนวนผู้ป่วย';
-                        }
-                        return null;
-                      },
-                      controller: number_patients,
-                      style: TextStyle(color: Colors.black),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5))),
-                    ),
-                  ),
-                ),
-              ),
+              // Center(
+              //   child: ListTile(
+              //     contentPadding: EdgeInsets.zero,
+              //     title: Text('จำนวนผู้ป่วย/บาดเจ็บ ณ ที่เกิดเหตุ'),
+              //     subtitle: Container(
+              //       // height: 50,
+              //       margin: EdgeInsets.only(top: 10),
+              //       child: TextFormField(
+              //         validator: (text) {
+              //           if (text == null || text.isEmpty) {
+              //             return 'โปรดป้อนจำนวนผู้ป่วย';
+              //           }
+              //           return null;
+              //         },
+              //         controller: number_patients,
+              //         style: TextStyle(color: Colors.black),
+              //         keyboardType: TextInputType.text,
+              //         decoration: InputDecoration(
+              //             filled: true,
+              //             border: OutlineInputBorder(
+              //                 borderRadius: BorderRadius.circular(5))),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text('ผู้ป่วยหายใจหรือไม่'),
+                title: const Text('ระดับความรุนแรงของอุบัติเหตุ'),
                 subtitle: Container(
                     height: 40,
-                    padding: EdgeInsets.all(2),
-                    margin: EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(2),
+                    margin: const EdgeInsets.only(top: 10),
                     width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.grey,
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
@@ -171,10 +172,10 @@ class _AccidentState extends State<Accident> {
                                       color: selected_breathe == 1
                                           ? Colors.white
                                           : Colors.grey,
-                                      borderRadius: BorderRadius.only(
+                                      borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(5),
                                           topLeft: Radius.circular(5))),
-                                  child: Text("หายใจ",
+                                  child: Text("เล็กน้อย",
                                       style: TextStyle(
                                           color: selected_breathe == 1
                                               ? Colors.grey
@@ -182,7 +183,7 @@ class _AccidentState extends State<Accident> {
                                           fontSize: 17)),
                                 ))),
                         Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Container(color: Colors.white, width: 2)),
                         Expanded(
                             child: InkWell(
@@ -198,7 +199,7 @@ class _AccidentState extends State<Accident> {
                                         ? Colors.white
                                         : Colors.grey,
                                   ),
-                                  child: Text("ไม่หายใจ",
+                                  child: Text("ปานกลาง",
                                       style: TextStyle(
                                           color: selected_breathe == 2
                                               ? Colors.grey
@@ -206,7 +207,7 @@ class _AccidentState extends State<Accident> {
                                           fontSize: 17)),
                                 ))),
                         Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
+                            padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Container(color: Colors.white, width: 2)),
                         Expanded(
                             child: InkWell(
@@ -221,10 +222,10 @@ class _AccidentState extends State<Accident> {
                                       color: selected_breathe == 3
                                           ? Colors.white
                                           : Colors.grey,
-                                      borderRadius: BorderRadius.only(
+                                      borderRadius: const BorderRadius.only(
                                           bottomRight: Radius.circular(5),
                                           topRight: Radius.circular(5))),
-                                  child: Text("ไม่แน่ใจ",
+                                  child: Text("รุนแรง",
                                       style: TextStyle(
                                           color: selected_breathe == 3
                                               ? Colors.grey
@@ -236,13 +237,13 @@ class _AccidentState extends State<Accident> {
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text('อาการเบื้องต้น'),
+                title: const Text('อาการเบื้องต้น'),
                 subtitle: FutureBuilder<List<SymptomModel>>(
                     future: futureDataSymtom,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<SymptomModel>? data = snapshot.data;
-
+                        print(data);
                         return GridView.builder(
                             padding: const EdgeInsets.all(0),
                             gridDelegate:
@@ -251,7 +252,7 @@ class _AccidentState extends State<Accident> {
                               crossAxisCount: 2,
                             ),
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: data!.length,
                             itemBuilder: (context, index) {
                               return Container(
@@ -276,15 +277,15 @@ class _AccidentState extends State<Accident> {
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }),
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: Text('อาการอื่นๆ เพิ่มเติม'),
+                title: const Text('อาการอื่นๆ เพิ่มเติม'),
                 subtitle: TextFormField(
                   controller: other_symptoms,
-                  style: TextStyle(color: Colors.black),
+                  style: const TextStyle(color: Colors.black),
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       filled: true,
@@ -298,23 +299,23 @@ class _AccidentState extends State<Accident> {
                   // },
                 ),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
-                  child: Text("ถัดไป"),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Colors.green.shade600),
-                    foregroundColor: MaterialStateProperty.all(Colors.black87),
-                    minimumSize: MaterialStateProperty.all(Size(150, 45)),
-                    elevation: MaterialStateProperty.all(0),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        WidgetStateProperty.all(Colors.green.shade600),
+                    foregroundColor: WidgetStateProperty.all(Colors.black87),
+                    minimumSize: WidgetStateProperty.all(const Size(150, 45)),
+                    elevation: WidgetStateProperty.all(0),
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
                   ),
                   onPressed: _accident_map,
+                  child: Text("ถัดไป"),
                 ),
               ),
             ]),

@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  const Register({super.key});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -22,12 +22,12 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _lastnameController = TextEditingController();
-  TextEditingController _telController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _birtdayController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _telController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _birtdayController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   File? _image;
 
@@ -69,7 +69,7 @@ class _RegisterState extends State<Register> {
         sourcePath: imageFile.path,
         maxWidth: 1080,
         maxHeight: 1080,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         uiSettings: [
           AndroidUiSettings(
             toolbarColor: Colors.deepOrange,
@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> {
       builder: (context) => CupertinoActionSheet(
         actions: [
           CupertinoActionSheetAction(
-            child: Text('Photo Gallery'),
+            child: const Text('Photo Gallery'),
             onPressed: () {
               // close the options modal
               Navigator.of(context).pop();
@@ -96,7 +96,7 @@ class _RegisterState extends State<Register> {
             },
           ),
           CupertinoActionSheetAction(
-            child: Text('Camera'),
+            child: const Text('Camera'),
             onPressed: () {
               // close the options modal
               Navigator.of(context).pop();
@@ -105,7 +105,7 @@ class _RegisterState extends State<Register> {
             },
           ),
           CupertinoActionSheetAction(
-            child: Text(
+            child: const Text(
               'Delete',
               style: TextStyle(color: Colors.red),
             ),
@@ -140,7 +140,7 @@ class _RegisterState extends State<Register> {
     if (_formKey.currentState!.validate()) {
       print(_image);
       var request = http.MultipartRequest(
-          'POST', Uri.parse(Config.API_URL + '/api-app/member/register'));
+          'POST', Uri.parse('${Config.API_URL}/api-app/member/register'));
       request.fields['member_name'] = _nameController.text;
       request.fields['member_lastname'] = _lastnameController.text;
       request.fields['member_tel'] = _telController.text;
@@ -187,8 +187,8 @@ class _RegisterState extends State<Register> {
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: GestureDetector(
             child: SingleChildScrollView(
               child: Form(
@@ -221,16 +221,16 @@ class _RegisterState extends State<Register> {
                               const SizedBox(
                                 width: 15,
                               ),
-                              Text('อัปโหลดรูปโปรไฟล์ประจำตัว')
+                              const Text('อัปโหลดรูปโปรไฟล์ประจำตัว')
                             ],
                           )),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Row(
                         children: [
                           Expanded(
                             child: TextFormField(
                               controller: _nameController,
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.text,
                               decoration:
                                   CustomInputDecoration.build(name: 'ชื่อ'),
@@ -242,13 +242,13 @@ class _RegisterState extends State<Register> {
                               },
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                             child: TextFormField(
                               controller: _lastnameController,
-                              style: TextStyle(color: Colors.black),
+                              style: const TextStyle(color: Colors.black),
                               // keyboardType: TextInputType.text,
                               decoration:
                                   CustomInputDecoration.build(name: 'นามสกุล'),
@@ -262,12 +262,12 @@ class _RegisterState extends State<Register> {
                           )
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
                         controller: _telController,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.text,
                         decoration:
                             CustomInputDecoration.build(name: 'เบอร์โทรศัพท์'),
@@ -278,12 +278,12 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
                         controller: _usernameController,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.text,
                         decoration:
                             CustomInputDecoration.build(name: 'ชื่อผู้ใช้'),
@@ -294,12 +294,12 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.text,
                         obscureText: true,
                         decoration:
@@ -311,13 +311,14 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
                         controller: _birtdayController,
                         decoration: CustomInputDecoration.build(
-                            name: 'วันเกิด', icon: Icon(Icons.calendar_today)),
+                            name: 'วันเกิด',
+                            icon: const Icon(Icons.calendar_today)),
                         readOnly: true, // when true user cannot edit text
                         onTap: _selectDate,
                         validator: (text) {
@@ -327,22 +328,21 @@ class _RegisterState extends State<Register> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           child: ElevatedButton(
-                            child: Text("สมัครบัญชีผู้ใช้"),
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
+                              backgroundColor: WidgetStateProperty.all(
                                   Colors.green.shade400),
                               foregroundColor:
-                                  MaterialStateProperty.all(Colors.black87),
+                                  WidgetStateProperty.all(Colors.black87),
                               // minimumSize: MaterialStateProperty.all(Size(150, 45)),
-                              elevation: MaterialStateProperty.all(0),
-                              shape: MaterialStateProperty.all<
+                              elevation: WidgetStateProperty.all(0),
+                              shape: WidgetStateProperty.all<
                                   RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -350,6 +350,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                             onPressed: _register,
+                            child: Text("สมัครบัญชีผู้ใช้"),
                           ))
                     ],
                   )),

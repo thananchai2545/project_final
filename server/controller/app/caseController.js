@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     const sql = 'SELECT * FROM case_data ORDER BY case_number DESC LIMIT 1';
 
     db.query(sql, (err, results_number) => {
-
+        if (err) throw err;
         let number = ''
         const case_date = new Date();
         // console.log(results_number);
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
         }
 
 
-        const sql_insert = 'INSERT INTO case_data (case_number,case_number_patients , case_tel,case_location_landmark, case_breathing, case_other_symptoms ,case_idcard,case_date,case_type,member_id) VALUES (?,?,?,?,?,?,?,?,?,?)';
+        const sql_insert = 'INSERT INTO case_data (case_number,case_number_patients , case_tel,case_location_landmark, case_breathing, case_other_symptom ,case_idcard,case_date,case_type,member_id) VALUES (?,?,?,?,?,?,?,?,?,?)';
         db.query(sql_insert, [number, case_number_patients, case_tel, case_landmark, case_breathe, case_other_symptoms, case_idcard, case_date, case_type, member_id], (err, result) => {
             if (err) {
                 throw err;

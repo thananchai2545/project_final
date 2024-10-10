@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/constant/token_manager.dart';
 import 'package:flutter_app/home_page.dart';
-import 'package:flutter_app/Patient_details.dart';
 import 'package:flutter_app/list_page.dart';
 import 'package:flutter_app/profile.dart';
 import 'package:go_router/go_router.dart';
 
 class ButtomLayout extends StatefulWidget {
-  const ButtomLayout({Key? key}) : super(key: key);
+  const ButtomLayout({super.key});
 
   @override
   _ButtomLayoutState createState() => _ButtomLayoutState();
@@ -20,10 +19,6 @@ class _ButtomLayoutState extends State<ButtomLayout> {
   static const List<Widget> _widgetOptions = [
     HomePage(),
     ListPage(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
     Profile()
   ];
 
@@ -39,7 +34,7 @@ class _ButtomLayoutState extends State<ButtomLayout> {
       await AuthService().clearToken();
       context.push('/login');
     }
-    return null;
+    return;
   }
 
   @override
@@ -57,10 +52,6 @@ class _ButtomLayoutState extends State<ButtomLayout> {
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: 'รายการ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mail),
-            label: 'ข้อความ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

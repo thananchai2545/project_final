@@ -30,6 +30,12 @@ const symptomRoutes = require('./routes/symptom');
 app.use('/api/symptom', symptomRoutes);
 const caseRoutes = require('./routes/case');
 app.use('/api/caseRoutes', caseRoutes);
+const hospitalRoutes = require('./routes/hospital');
+app.use('/api/hospitalRoutes', hospitalRoutes);
+const exacerbationRoutes = require('./routes/exacerbation');
+app.use('/api/exacerbation', exacerbationRoutes);
+const non_emergancyRoutes = require('./routes/non_emergancy');
+app.use('/api/non_emergancy', non_emergancyRoutes);
 
 
 //app 
@@ -39,6 +45,14 @@ const symptomRoutesApp = require('./routes/app/symptom');
 app.use('/api-app/symptom', symptomRoutesApp)
 const caseRoutesApp = require('./routes/app/case');
 app.use('/api-app/case', caseRoutesApp)
+const infectiousPatientsRoutesApp = require('./routes/app/infectiousPatients');
+app.use('/api-app/infectious', infectiousPatientsRoutesApp)
+const exacerbationRoutesApp = require('./routes/app/exacerbation');
+app.use('/api-app/exacerbation', exacerbationRoutesApp)
+const nonEmergencyRoutesApp = require('./routes/app/nonEmergency');
+app.use('/api-app/non-emergency', nonEmergencyRoutesApp)
+const hospitalRoutesApp = require('./routes/app/hospital');
+app.use('/api-app/hospital', hospitalRoutesApp)
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

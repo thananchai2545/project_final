@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/Infectious_patients.dart';
+import 'package:flutter_app/Non_emergency_patients.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_app/Special_patients.dart';
+// import 'package:flutter_app/Special_patients.dart';
 import 'package:flutter_app/accident.dart';
 import 'package:flutter_app/emergency_patient.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,38 +18,33 @@ class _HomePageState extends State<HomePage> {
   // final storage = new FlutterSecureStorage();
 
   final List<String> entries = <String>[
-    'ผู้ป่วยฉุกเฉิน(สำหรับผู้ป่วยที่ไม่ทราบอาการแน่ชัด)',
-    'ผู้ป่วยพิเศษ / ผู้สูงอายุ',
-    'อุบัติเหตุ'
+    'ผู้ป่วยฉุกเฉิน',
+    'ผู้ป่วยไม่ฉุกเฉิน',
+    'ผู้ป่วยสภาวะแพร่เชื้อ'
   ];
 
   final List<Color> colorCodes = <Color>[
-    Colors.red,
-    Colors.orange,
-    Colors.yellow
+    Colors.redAccent,
+    Colors.greenAccent,
+    Colors.purpleAccent
   ];
   final List<String> equipment = <String>[
-    'สำหรับผู้ป่วยที่บอกอาการได้ไม่แน่ชัด',
-    'สำหรับบุคคลที่สามารถระบุอุปกรณ์ที่ต้องการได้',
-    'สำหรับผู้ป่วยที่ประสบณ์อุบัติเหตุ'
+    'อาการขั้นวิกฤติ',
+    'นัดหมาย/เวลา',
+    'ผู้ป่วยโรคติดต่อ'
   ];
 
-  final List<IconData> icon = <IconData>[
-    FontAwesomeIcons.truckMedical,
-    FontAwesomeIcons.houseMedical,
-    FontAwesomeIcons.carOn
-  ];
-
-  final List<Widget> tab = <Widget>[
-    const EmergencyPatient(),
-    const SpecialPatients(),
-    const Accident()
-  ];
+  // final List<Widget> tab = <Widget>[
+  //   const EmergencyPatient(),
+  //   const SpecialPatients(),
+  //   const NonEmergencyPatients(),
+  //   // const InfectiousPatients()
+  // ];
 
   final List<String> name = <String>[
     'emergencypatient',
-    'specialpatients',
-    'accident',
+    'non_emergency_patients',
+    'infectiousPatients'
   ];
 
   @override
@@ -81,10 +78,11 @@ class _HomePageState extends State<HomePage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         context.push('/${name[index]}');
+                        // print('/${name[index]}');
                       },
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Color(0xff32303b)),
+                              MaterialStateProperty.all(colorCodes[index]),
                           elevation: MaterialStateProperty.all(0),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -95,22 +93,13 @@ class _HomePageState extends State<HomePage> {
                           alignment: Alignment.centerLeft),
                       child: Row(
                         children: [
-                          Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                                color: colorCodes[index]),
-                            child: Icon(icon[index]),
-                          ),
                           SizedBox(
                             width: 15,
                           ),
                           Flexible(
                               child: Text(
                             '${entries[index]}',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black, fontSize: 24),
                           )),
                         ],
                       ),
@@ -119,7 +108,10 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     padding: EdgeInsets.only(left: 10),
                     alignment: Alignment.bottomLeft,
-                    child: Text('หมายเหตุ : ${equipment[index]}'),
+                    child: Text(
+                      'หมายเหตุ : ${equipment[index]}',
+                      style: const TextStyle(fontSize: 18, color: Colors.black),
+                    ),
                   ),
                   const SizedBox(
                     height: 30,

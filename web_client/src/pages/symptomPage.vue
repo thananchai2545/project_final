@@ -11,7 +11,11 @@
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <button type="button" class="btn btn-primary" @click="openModal">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="openModal"
+                  >
                     เพิ่มข้อมูลอาการ
                   </button>
                 </ol>
@@ -61,11 +65,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(item,key, index) in symptom" :key="index">
-                    <td class="text-center">{{ index+1 }}</td>
+                  <tr v-for="(item, key, index) in symptom" :key="index">
+                    <td class="text-center">{{ index + 1 }}</td>
                     <td>{{ item.symptom_name }}</td>
                     <td>
-                      <div v-for="item1 in item.symptom_tool_arr" :key="item1.id">
+                      <div
+                        v-for="item1 in item.symptom_tool_arr"
+                        :key="item1.id"
+                      >
                         {{ item1.tool_name }}
                       </div>
                     </td>
@@ -107,7 +114,9 @@
                 <h5 class="modal-title" id="exampleModalLabel" v-if="edit">
                   แก้ไขผู้ใช้งาน
                 </h5>
-                <h5 class="modal-title" id="exampleModalLabel" v-else>เพิ่มผู้ใช้งาน</h5>
+                <h5 class="modal-title" id="exampleModalLabel" v-else>
+                  เพิ่มผู้ใช้งาน
+                </h5>
                 <button
                   type="button"
                   class="close"
@@ -164,7 +173,11 @@
                 >
                   บันทึก
                 </button>
-                <button type="button" class="btn btn-danger" @click="closeModal">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  @click="closeModal"
+                >
                   ปิด
                 </button>
               </div>
@@ -208,12 +221,12 @@ export default {
     };
   },
   mounted() {
-     if (localStorage.getItem('reloaded')) {
-            localStorage.removeItem('reloaded');
-        } else {
-            localStorage.setItem('reloaded', '1');
-            location.reload();
-        }
+    if (localStorage.getItem("reloaded")) {
+      localStorage.removeItem("reloaded");
+    } else {
+      localStorage.setItem("reloaded", "1");
+      location.reload();
+    }
     this.readData();
   },
   methods: {
@@ -334,8 +347,6 @@ export default {
         confirmButtonText: "ยืนยัน",
         cancelButtonText: "ยกเลิก",
       }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        console.log(item);
         if (result.isConfirmed) {
           const token = localStorage.getItem("token");
           axios

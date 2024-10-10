@@ -3,7 +3,19 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/Special_patients.dart';
+import 'package:flutter_app/Exacerbation.dart';
+import 'package:flutter_app/Exacerbation_contact.dart';
+import 'package:flutter_app/Exacerbation_event.dart';
+import 'package:flutter_app/Exacerbation_map.dart';
+import 'package:flutter_app/Infectious_patients.dart';
+import 'package:flutter_app/Infectious_patients_diagnose.dart';
+import 'package:flutter_app/Infectious_patients_map_.dart';
+import 'package:flutter_app/Infectious_patients_travel.dart';
+import 'package:flutter_app/Non_emergency_patients.dart';
+import 'package:flutter_app/Non_emergency_patients_appointment%20.dart';
+import 'package:flutter_app/Non_emergency_patients_destination.dart';
+import 'package:flutter_app/Non_emergency_patients_health.dart';
+import 'package:flutter_app/Semi_emergency.dart';
 import 'package:flutter_app/accident.dart';
 import 'package:flutter_app/accident_contact.dart';
 import 'package:flutter_app/accident_image.dart';
@@ -43,53 +55,164 @@ final GoRouter _router = GoRouter(
               path: 'emergencypatient',
               builder: (BuildContext context, GoRouterState state) {
                 return const EmergencyPatient();
-              }),
-          GoRoute(
-            path: 'specialpatients',
-            builder: (BuildContext context, GoRouterState state) {
-              return const SpecialPatients();
-            },
-          ),
-          GoRoute(
-              path: 'accident',
-              builder: (BuildContext context, GoRouterState state) {
-                return const Accident();
               },
               routes: <RouteBase>[
                 GoRoute(
-                    path: 'accident_map',
-                    builder: (context, state) {
-                      List data_patient = state.extra as List;
-                      // AccidentData accidentData = state.extra as AccidentData;
-                      return AccidentMap(
-                        data_patient: data_patient,
-                        // accidentData: accidentData,
-                      );
+                    path: 'accident',
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Accident();
                     },
                     routes: <RouteBase>[
                       GoRoute(
-                          path: 'accident_contact',
+                          path: 'accident_map',
                           builder: (context, state) {
                             List data_patient = state.extra as List;
-                            return AccidentContact(
+                            // AccidentData accidentData = state.extra as AccidentData;
+                            return AccidentMap(
                               data_patient: data_patient,
-                              // data_patient: data_patient,
+                              // accidentData: accidentData,
                             );
                           },
                           routes: <RouteBase>[
                             GoRoute(
-                              path: 'accident_image',
-                              builder: (context, state) {
-                                // String data = state.extra.toString();
-                                List data_patient = state.extra as List;
-                                return AccidentImage(
-                                  data_patient: data_patient,
-                                );
+                                path: 'accident_contact',
+                                builder: (context, state) {
+                                  List data_patient = state.extra as List;
+                                  return AccidentContact(
+                                    data_patient: data_patient,
+                                    // data_patient: data_patient,
+                                  );
+                                },
+                                routes: <RouteBase>[
+                                  GoRoute(
+                                    path: 'accident_image',
+                                    builder: (context, state) {
+                                      // String data = state.extra.toString();
+                                      List data_patient = state.extra as List;
+                                      return AccidentImage(
+                                        data_patient: data_patient,
+                                      );
+                                    },
+                                  )
+                                ])
+                          ])
+                    ]),
+                GoRoute(
+                    path: 'exacerbation',
+                    builder: (BuildContext context, GoRouterState state) {
+                      return const Exacerbation();
+                    },
+                    routes: <RouteBase>[
+                      GoRoute(
+                          name: 'event',
+                          path: 'event',
+                          builder: (BuildContext context, GoRouterState state) {
+                            Map<String, dynamic> data =
+                                state.extra as Map<String, dynamic>;
+                            return ExacerbationEvent(
+                              data: data,
+                            );
+                          },
+                          routes: <RouteBase>[
+                            GoRoute(
+                                path: 'map',
+                                builder: (BuildContext context,
+                                    GoRouterState state) {
+                                  Map<String, dynamic> data =
+                                      state.extra as Map<String, dynamic>;
+                                  return ExacerbationMap(
+                                    data: data,
+                                  );
+                                },
+                                routes: <RouteBase>[
+                                  GoRoute(
+                                    path: 'contact',
+                                    builder: (BuildContext context,
+                                        GoRouterState state) {
+                                      Map<String, dynamic> data =
+                                          state.extra as Map<String, dynamic>;
+                                      return ExacerbationContact(
+                                        data: data,
+                                      );
+                                    },
+                                  )
+                                ])
+                          ])
+                    ])
+              ]),
+          GoRoute(
+              path: 'non_emergency_patients',
+              builder: (BuildContext context, GoRouterState state) {
+                return const NonEmergencyPatients();
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                    path: 'health',
+                    builder: (BuildContext context, GoRouterState state) {
+                      Map<String, dynamic> data =
+                          state.extra as Map<String, dynamic>;
+                      return NonEmergencyPatientsHealth(data: data);
+                    },
+                    routes: <RouteBase>[
+                      GoRoute(
+                          path: 'appointment',
+                          builder: (BuildContext context, GoRouterState state) {
+                            Map<String, dynamic> data =
+                                state.extra as Map<String, dynamic>;
+                            return NonEmergencyPatientsAppointment(
+                              data: data,
+                            );
+                          },
+                          routes: <RouteBase>[
+                            GoRoute(
+                              path: 'destination',
+                              builder:
+                                  (BuildContext context, GoRouterState state) {
+                                Map<String, dynamic> data =
+                                    state.extra as Map<String, dynamic>;
+                                return NonEmergencyPatientsDestination(
+                                    data: data);
+                              },
+                            ),
+                          ]),
+                    ]),
+              ]),
+          GoRoute(
+              path: 'infectiousPatients',
+              builder: (BuildContext context, GoRouterState state) {
+                return const InfectiousPatients();
+              },
+              routes: <RouteBase>[
+                GoRoute(
+                    path: 'map',
+                    builder: (BuildContext context, GoRouterState state) {
+                      Map<String, dynamic> data =
+                          state.extra as Map<String, dynamic>;
+                      return InfectiousPatientsMap(
+                        data: data,
+                      );
+                    },
+                    routes: <RouteBase>[
+                      GoRoute(
+                          path: 'diagnose',
+                          builder: (BuildContext context, GoRouterState state) {
+                            Map<String, dynamic> data =
+                                state.extra as Map<String, dynamic>;
+                            return InfectiousPatientsDiagnose(data: data);
+                          },
+                          routes: <RouteBase>[
+                            GoRoute(
+                              path: 'travel',
+                              builder:
+                                  (BuildContext context, GoRouterState state) {
+                                Map<String, dynamic> data =
+                                    state.extra as Map<String, dynamic>;
+                                return InfectiousPatientsTravel(data: data);
                               },
                             )
                           ])
                     ])
-              ]),
+              ])
         ]),
     GoRoute(
       path: '/profile',

@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 
 class AccidentImage extends StatefulWidget {
   final List data_patient;
-  const AccidentImage({Key? key, required this.data_patient}) : super(key: key);
+  const AccidentImage({super.key, required this.data_patient});
 
   @override
   _AccidentImageState createState() => _AccidentImageState();
@@ -24,13 +24,13 @@ class _AccidentImageState extends State<AccidentImage> {
   final dio = Dio();
 
   Future<void> report_accident() async {
-    List data_patient = widget.data_patient;
-    final member_id = await AuthService().loadMemberId();
+    List dataPatient = widget.data_patient;
+    final memberId = await AuthService().loadMemberId();
 
     // data_patient[0]['image'] = image;
     AuthService().loadToken();
-    data_patient[0]['case_type'] = 'accident';
-    data_patient[0]['member_id'] = member_id;
+    dataPatient[0]['case_type'] = 'accident';
+    dataPatient[0]['member_id'] = memberId;
 
     // print(AuthService().loadToken());
     // print(image[0].path);
@@ -38,10 +38,10 @@ class _AccidentImageState extends State<AccidentImage> {
       final token = await AuthService().loadToken();
 
       var request = http.MultipartRequest(
-          'POST', Uri.parse(Config.API_URL + '/api-app/case/create'));
+          'POST', Uri.parse('${Config.API_URL}/api-app/case/create'));
 
       request.headers['Authorization'] = 'bearer $token';
-      request.fields['data_patient'] = jsonEncode(data_patient[0]);
+      request.fields['data_patient'] = jsonEncode(dataPatient[0]);
       for (var case_image in image) {
         // print(index);
         if (case_image != null) {
@@ -78,7 +78,7 @@ class _AccidentImageState extends State<AccidentImage> {
       builder: (context) => CupertinoActionSheet(
         actions: [
           CupertinoActionSheetAction(
-            child: Text('Photo Gallery'),
+            child: const Text('Photo Gallery'),
             onPressed: () {
               // close the options modal
               Navigator.of(context).pop();
@@ -87,7 +87,7 @@ class _AccidentImageState extends State<AccidentImage> {
             },
           ),
           CupertinoActionSheetAction(
-            child: Text('Camera'),
+            child: const Text('Camera'),
             onPressed: () {
               // close the options modal
               Navigator.of(context).pop();
@@ -96,7 +96,7 @@ class _AccidentImageState extends State<AccidentImage> {
             },
           ),
           CupertinoActionSheetAction(
-            child: Text(
+            child: const Text(
               'Delete',
               style: TextStyle(color: Colors.red),
             ),
@@ -150,7 +150,7 @@ class _AccidentImageState extends State<AccidentImage> {
         sourcePath: imageFile.path,
         maxWidth: 1080,
         maxHeight: 1080,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
         uiSettings: [
           AndroidUiSettings(
             toolbarColor: Colors.deepOrange,
@@ -185,15 +185,15 @@ class _AccidentImageState extends State<AccidentImage> {
         body: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               children: [
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const SizedBox(
-                    child: Text('รูปภาพประกอบ'),
                     height: 40,
+                    child: Text('รูปภาพประกอบ'),
                   ),
                   subtitle: GridView.count(
                     shrinkWrap: true,
@@ -221,31 +221,30 @@ class _AccidentImageState extends State<AccidentImage> {
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(5.0),
                                   child: Image.file(
-                                    image![index],
+                                    image[index],
                                     fit: BoxFit.cover,
                                   ),
                                 ));
                     }),
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
-                    child: Text("แจ้งอุบัติเหตุ"),
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.redAccent),
-                      foregroundColor:
-                          MaterialStateProperty.all(Colors.black87),
-                      minimumSize: MaterialStateProperty.all(Size(150, 45)),
-                      elevation: MaterialStateProperty.all(0),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          WidgetStateProperty.all(Colors.redAccent),
+                      foregroundColor: WidgetStateProperty.all(Colors.black87),
+                      minimumSize: WidgetStateProperty.all(const Size(150, 45)),
+                      elevation: WidgetStateProperty.all(0),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
                     ),
                     onPressed: report_accident,
+                    child: Text("แจ้งอุบัติเหตุ"),
                   ),
                 ),
               ],

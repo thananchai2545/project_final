@@ -21,28 +21,38 @@ exports.index = (req, res) => {
 exports.insert = (req, res, callback) => {
     const { tool_name, tool_description } = req.body
     if (!req.file) {
-        return res.status(400).send('No file uploaded.');
+        const sql = 'INSERT INTO tool (tool_name, tool_description) VALUES (?,?)';
+        db.query(sql, [tool_name, tool_description], (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.json({
+                status: 'success',
+            });
+        });
+    } else {
+        const imagePath = `/uploads/${req.file.filename}`;
+        const sql = 'INSERT INTO tool (tool_name, tool_description, tool_img) VALUES (?,?,?)';
+        db.query(sql, [tool_name, tool_description, imagePath], (err, result) => {
+            if (err) {
+                throw err;
+            }
+            res.json({
+                status: 'success',
+            });
+        });
     }
 
-    const imagePath = `/uploads/${req.file.filename}`;
-    const sql = 'INSERT INTO tool (tool_name, tool_description, tool_img) VALUES (?,?,?)';
-    db.query(sql, [tool_name, tool_description, imagePath], (err, result) => {
-        if (err) {
-            throw err;
-        }
-        res.json({
-            status: 'success',
-        });
-    });
+
 }
 
 exports.update = (req, res) => {
     // const { id } = req.params
 
-    const { id,tool_name, tool_description } = req.body
+    const { id, tool_name, tool_description } = req.body
     const sql = "SELECT * FROM tool WHERE id = ?";
 
-    db.query(sql, [id],(err, results) => {
+    db.query(sql, [id], (err, results) => {
         if (err) {
             throw err;
         }
@@ -74,7 +84,7 @@ exports.update = (req, res) => {
                     status: 'success',
                 });
             });
-        }else{
+        } else {
             const sql = "UPDATE tool SET tool_name = ?, tool_description = ? WHERE id = ?";
             db.query(sql, [tool_name, tool_description, id], (err, result) => {
                 if (err) {

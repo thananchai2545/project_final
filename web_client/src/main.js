@@ -4,6 +4,8 @@ import store from './store'
 import router from './router'
 import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
+
+
 // Create and mount the app
 const app = createApp(App)
 app.use(router)
