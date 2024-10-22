@@ -18,20 +18,20 @@ class _HomePageState extends State<HomePage> {
   // final storage = new FlutterSecureStorage();
 
   final List<String> entries = <String>[
-    'ผู้ป่วยฉุกเฉิน',
-    'ผู้ป่วยไม่ฉุกเฉิน',
-    'ผู้ป่วยสภาวะแพร่เชื้อ'
+    'อุบัติเหตุ / โรคกำเริบ',
+    'ผู้ป่วยทั่วไป',
+    'โรคติดต่อ',
   ];
 
   final List<Color> colorCodes = <Color>[
     Colors.redAccent,
     Colors.greenAccent,
-    Colors.purpleAccent
+    Colors.purpleAccent,
   ];
   final List<String> equipment = <String>[
     'อาการขั้นวิกฤติ',
     'นัดหมาย/เวลา',
-    'ผู้ป่วยโรคติดต่อ'
+    'ผู้ป่วยโรคติดต่อ',
   ];
 
   // final List<Widget> tab = <Widget>[
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   final List<String> name = <String>[
     'emergencypatient',
     'non_emergency_patients',
-    'infectiousPatients'
+    'infectiousPatients',
   ];
 
   @override

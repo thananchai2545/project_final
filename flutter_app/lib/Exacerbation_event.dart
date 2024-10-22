@@ -14,6 +14,7 @@ class ExacerbationEvent extends StatefulWidget {
 class _ExacerbationEventState extends State<ExacerbationEvent> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController date_incident = TextEditingController();
+  int violence = 0;
   // TextEditingController time = TextEditingController();
   TextEditingController location_incident = TextEditingController();
   TextEditingController symptom = TextEditingController();
@@ -27,14 +28,17 @@ class _ExacerbationEventState extends State<ExacerbationEvent> {
   }
 
   void _nextMap() {
-    data?.addAll({
-      'date_incident': date_incident.text,
-      'location_incident': location_incident.text,
-      'symptom': symptom.text,
-      'period': period.text,
-      'assistance': assistance.text
-    });
-    context.push('/emergencypatient/exacerbation/event/map', extra: data);
+    if (_formKey.currentState!.validate()) {
+      data?.addAll({
+        'date_incident': date_incident.text,
+        'location_incident': location_incident.text,
+        'symptom': symptom.text,
+        'period': period.text,
+        'assistance': assistance.text,
+        'violence': violence
+      });
+      context.push('/emergencypatient/exacerbation/event/map', extra: data);
+    }
   }
 
   @override
@@ -79,6 +83,12 @@ class _ExacerbationEventState extends State<ExacerbationEvent> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุวันที่และเวลาที่เกิดเหตุการณ์';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
@@ -93,21 +103,33 @@ class _ExacerbationEventState extends State<ExacerbationEvent> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุสถานที่ที่เกิดเหตุการณ์';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('ลักษณะอาการที่กำเริบ'),
                     subtitle: TextFormField(
-                      controller: symptom,
-                      style: const TextStyle(color: Colors.black),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          hintText: 'เช่น หายใจไม่ออก, หมดสติ, ชัก, เจ็บหน้าอก',
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5))),
-                    ),
+                        controller: symptom,
+                        style: const TextStyle(color: Colors.black),
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            hintText:
+                                'เช่น หายใจไม่ออก, หมดสติ, ชัก, เจ็บหน้าอก',
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาระบุลักษณะอาการที่กำเริบ';
+                          }
+                          return null;
+                        }),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
@@ -120,6 +142,12 @@ class _ExacerbationEventState extends State<ExacerbationEvent> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุระยะเวลาที่อาการกำเริบเริ่มต้น';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(

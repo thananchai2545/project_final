@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 const path = require('path');
 const app = express();
-const port = 3000;
+const port = 8080;
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -36,7 +36,10 @@ const exacerbationRoutes = require('./routes/exacerbation');
 app.use('/api/exacerbation', exacerbationRoutes);
 const non_emergancyRoutes = require('./routes/non_emergancy');
 app.use('/api/non_emergancy', non_emergancyRoutes);
-
+const infectiousRoutes = require('./routes/infectious');
+app.use('/api/infectious', infectiousRoutes);
+const ambulanceRoutes = require('./routes/ambulance');
+app.use('/api/ambulance', ambulanceRoutes);
 
 //app 
 const member = require('./routes/app/member')
@@ -53,6 +56,21 @@ const nonEmergencyRoutesApp = require('./routes/app/nonEmergency');
 app.use('/api-app/non-emergency', nonEmergencyRoutesApp)
 const hospitalRoutesApp = require('./routes/app/hospital');
 app.use('/api-app/hospital', hospitalRoutesApp)
+
+//ambulacne
+const infectiousRouterApp = require('./routes/ambulance/infectious')
+app.use('/api-ambulance/infectious', infectiousRouterApp)
+const ambulanceRouterApp = require('./routes/ambulance/ambulance')
+app.use('/api-ambulance/ambulance', ambulanceRouterApp)
+const accidentRouterApp = require('./routes/ambulance/accident')
+app.use('/api-ambulance/accident', accidentRouterApp)
+const exacerbationRouterApp = require('./routes/ambulance/exacerbation')
+app.use('/api-ambulance/exacerbation', exacerbationRouterApp)
+const non_emergencyRouterApp = require('./routes/ambulance/non_emergency')
+app.use('/api-ambulance/non_emergency', non_emergencyRouterApp)
+const mapRouterApp = require('./routes/ambulance/map')
+app.use('/api-ambulance/map', mapRouterApp)
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

@@ -25,6 +25,7 @@ import 'package:flutter_app/buttom_layout.dart';
 import 'package:flutter_app/constant/config.dart';
 import 'package:flutter_app/constant/token_manager.dart';
 import 'package:flutter_app/emergency_patient.dart';
+import 'package:flutter_app/map_screen.dart';
 
 import 'package:flutter_app/profile.dart';
 // import 'package:flutter_app/home_page.dart';
@@ -32,6 +33,7 @@ import 'package:flutter_app/register.dart';
 import 'package:flutter_app/test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_app/login_page.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
@@ -52,6 +54,21 @@ final GoRouter _router = GoRouter(
         },
         routes: <RouteBase>[
           GoRoute(
+            path: 'map_screen',
+            builder: (BuildContext context, GoRouterState state) {
+              Map<String, dynamic> dataPatient =
+                  state.extra as Map<String, dynamic>;
+              return MapScreen(dataPatient: dataPatient);
+            },
+          ),
+          GoRoute(
+            path: 'test',
+            builder: (BuildContext context, GoRouterState state) {
+              LatLng? draggedPosition = state.extra as LatLng?;
+              return Test(draggedPosition: draggedPosition);
+            },
+          ),
+          GoRoute(
               path: 'emergencypatient',
               builder: (BuildContext context, GoRouterState state) {
                 return const EmergencyPatient();
@@ -66,10 +83,14 @@ final GoRouter _router = GoRouter(
                       GoRoute(
                           path: 'accident_map',
                           builder: (context, state) {
-                            List data_patient = state.extra as List;
+                            Map<String, dynamic>? dataPatient =
+                                state.extra as Map<String, dynamic>;
+                            // LatLng? draggedPosition = state.extra as LatLng?;
+
                             // AccidentData accidentData = state.extra as AccidentData;
                             return AccidentMap(
-                              data_patient: data_patient,
+                              dataPatient: dataPatient,
+                              // draggedPosition: draggedPosition
                               // accidentData: accidentData,
                             );
                           },
@@ -77,9 +98,10 @@ final GoRouter _router = GoRouter(
                             GoRoute(
                                 path: 'accident_contact',
                                 builder: (context, state) {
-                                  List data_patient = state.extra as List;
+                                  Map<String, dynamic> dataPatient =
+                                      state.extra as Map<String, dynamic>;
                                   return AccidentContact(
-                                    data_patient: data_patient,
+                                    dataPatient: dataPatient,
                                     // data_patient: data_patient,
                                   );
                                 },
@@ -88,7 +110,8 @@ final GoRouter _router = GoRouter(
                                     path: 'accident_image',
                                     builder: (context, state) {
                                       // String data = state.extra.toString();
-                                      List data_patient = state.extra as List;
+                                      Map<String, dynamic> data_patient =
+                                          state.extra as Map<String, dynamic>;
                                       return AccidentImage(
                                         data_patient: data_patient,
                                       );

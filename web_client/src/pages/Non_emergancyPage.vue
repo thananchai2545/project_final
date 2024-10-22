@@ -6,7 +6,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-6">
-                <h4>ผู้ป่วยไม่ฉุกเฉิน</h4>
+                <h4>ผู้ป่วยทั่วไป</h4>
               </div>
               <!-- <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -64,9 +64,24 @@
                     <td class="text-center">{{ index + 1 }}</td>
                     <td>{{ item.name_lastname }}</td>
                     <td>{{ item.tel }}</td>
-                    <td>ผู้ป่วยไม่ฉุกเฉิน</td>
+                    <td>ผู้ป่วยทั่วไป</td>
                     <td>
-                      <div v-if="item.status == 'pending'">รอรับแจ้งเหตุ</div>
+                      <div v-if="item.status === 'inform'">
+                        รอการอนุมัติเหตุ
+                      </div>
+                      <div v-if="item.status === 'receive'">
+                        เตรียมอุปกรณ์ออกไปรับผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'departure'">
+                        กำลังออกไปรับผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'destination'">
+                        ถึงจุดหมายไปรับผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'hospital'">
+                        กำลังนำส่งโรงพยาบาล
+                      </div>
+                      <div v-if="item.status === 'complete'">เสร็จสิ้น</div>
                     </td>
 
                     <td class="text-center">
@@ -76,15 +91,6 @@
                         class="btn btn-primary"
                       >
                         ดูเพิ่มเติม <i class="fas fa-eye"></i>
-                      </button>
-
-                      &nbsp;
-                      <button
-                        type="button"
-                        @click="openModal(item)"
-                        class="btn btn-warning"
-                      >
-                        รับแจ้งเหตุ
                       </button>
                     </td>
                   </tr>
@@ -154,7 +160,7 @@ export default {
       console.log(id);
 
       this.$router.push({
-        path: `/case/non_emergancy/` + id,
+        path: `/case/non_emergency/` + id,
       });
       // console.log(id);
     },

@@ -6,12 +6,13 @@ import 'package:flutter_app/constant/config.dart';
 import 'package:flutter_app/constant/token_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class AccidentImage extends StatefulWidget {
-  final List data_patient;
+  final Map<String, dynamic> data_patient;
   const AccidentImage({super.key, required this.data_patient});
 
   @override
@@ -24,24 +25,20 @@ class _AccidentImageState extends State<AccidentImage> {
   final dio = Dio();
 
   Future<void> report_accident() async {
-    List dataPatient = widget.data_patient;
+    Map<String, dynamic> dataPatient = widget.data_patient;
     final memberId = await AuthService().loadMemberId();
 
     // data_patient[0]['image'] = image;
     AuthService().loadToken();
-    dataPatient[0]['case_type'] = 'accident';
-    dataPatient[0]['member_id'] = memberId;
-
-    // print(AuthService().loadToken());
-    // print(image[0].path);
+    dataPatient.addAll(
+        {'case_type': 'accident', 'member_id': memberId, 'case_status': '1'});
     try {
       final token = await AuthService().loadToken();
-
       var request = http.MultipartRequest(
           'POST', Uri.parse('${Config.API_URL}/api-app/case/create'));
-
       request.headers['Authorization'] = 'bearer $token';
-      request.fields['data_patient'] = jsonEncode(dataPatient[0]);
+      request.fields['data_patient'] = jsonEncode(dataPatient);
+
       for (var case_image in image) {
         // print(index);
         if (case_image != null) {
@@ -50,23 +47,26 @@ class _AccidentImageState extends State<AccidentImage> {
         }
       }
       var response = await request.send();
+      print(response.statusCode);
       if (response.statusCode == 200) {
-        print(200);
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              'แจ้งเหตุเสร็จสิ้น',
+              style: TextStyle(fontSize: 18),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => context.push('/'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
       } else {
         print('object');
       }
-
-      // showDialog<String>(
-      //     context: context,
-      //     builder: (BuildContext context) => AlertDialog(
-      //           title: const Center(child: Text('สร้างบัญชีเสร็จสิ้น')),
-      //           actions: <Widget>[
-      //             TextButton(
-      //               onPressed: () => context.push('/login'),
-      //               child: const Text('OK'),
-      //             ),
-      //           ],
-      //         ));
     } catch (error) {
       print(error);
     }

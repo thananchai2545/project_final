@@ -22,7 +22,7 @@
                 <li class="nav-item ">
                     <router-link to="/tool" class="nav-link" v-bind:class="activeMenu('tool')">
                         <i class="nav-icon fas fa-toolbox"></i>
-                        <p> เครื่องมือ </p>
+                        <p> อุปกรณ์ </p>
                     </router-link>
                 </li>
                 <li class="nav-item">
@@ -34,6 +34,12 @@
                 <li class="nav-item">
                     <router-link to="/hospital" class="nav-link" v-bind:class="activeMenu('hospital')"> <i class="nav-icon fas fa-hospital"></i>
                         <p> โรงพยาบาล
+                        </p>
+                    </router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link to="/ambulance" class="nav-link" v-bind:class="activeMenu('ambulance')"> <i class="nav-icon fa fa-ambulance"></i>
+                        <p> รถพยาบาล
                         </p>
                     </router-link>
                 </li>
@@ -55,13 +61,13 @@
                             </router-link> 
                         </li>
                         <li class="nav-item"> 
-                            <router-link to="/case/non_emergancy" class="nav-link" v-bind:class="activeMenuChild('non_emergency')"><i class="far fa-circle nav-icon"></i>
-                                <p> ผู้ป่วยไม่ฉุกเฉิน <i class="right fas fa-angle-left"></i> </p>
+                            <router-link to="/case/non_emergency" class="nav-link" v-bind:class="activeMenuChild('non_emergency')"><i class="far fa-circle nav-icon"></i>
+                                <p> ผู้ป่วยทั่วไป <i class="right fas fa-angle-left"></i> </p>
                             </router-link> 
                         </li>
                        <li class="nav-item"> 
-                            <router-link to="/case/accident" class="nav-link" v-bind:class="activeMenuChild('infectious')"><i class="far fa-circle nav-icon"></i>
-                                <p> ผู้ป่วยสภาวะแพร่เชื้อ <i class="right fas fa-angle-left"></i> </p>
+                            <router-link to="/case/infectious" class="nav-link" v-bind:class="activeMenuChild('infectious')"><i class="far fa-circle nav-icon"></i>
+                                <p> ผู้ป่วยโรคติดต่อ <i class="right fas fa-angle-left"></i> </p>
                             </router-link> 
                         </li>
                     </ul>

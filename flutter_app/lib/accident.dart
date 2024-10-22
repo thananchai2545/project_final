@@ -21,6 +21,7 @@ class _AccidentState extends State<Accident> {
   final _formKey = GlobalKey<FormState>();
 
   int selected_breathe = 0;
+  int violence = 0;
   List data = [];
   bool setSymptomOption = true;
   late Future<List<SymptomModel>> futureDataSymtom;
@@ -75,14 +76,12 @@ class _AccidentState extends State<Accident> {
       // other_symptoms.text = null;
       // Null d = null;
       // other_symptoms.text = '';
-      List dataPatient = [
-        {
-          // "case_number_patients": number_patients.text,
-          "case_breathe": selected_breathe,
-          "case_symtomSelect": symtomSelect,
-          "case_other_symptoms": other_symptoms.text
-        }
-      ];
+      Map<String, dynamic> dataPatient = {
+        // "case_number_patients": number_patients.text,
+        "case_breathe": selected_breathe,
+        "case_symtomSelect": symtomSelect,
+        "case_other_symptoms": other_symptoms.text
+      };
       print(other_symptoms.text.isEmpty);
       // null;
       context.push('/emergencypatient/accident/accident_map',
@@ -120,34 +119,9 @@ class _AccidentState extends State<Accident> {
           child: Form(
             key: _formKey,
             child: Column(children: [
-              // Center(
-              //   child: ListTile(
-              //     contentPadding: EdgeInsets.zero,
-              //     title: Text('จำนวนผู้ป่วย/บาดเจ็บ ณ ที่เกิดเหตุ'),
-              //     subtitle: Container(
-              //       // height: 50,
-              //       margin: EdgeInsets.only(top: 10),
-              //       child: TextFormField(
-              //         validator: (text) {
-              //           if (text == null || text.isEmpty) {
-              //             return 'โปรดป้อนจำนวนผู้ป่วย';
-              //           }
-              //           return null;
-              //         },
-              //         controller: number_patients,
-              //         style: TextStyle(color: Colors.black),
-              //         keyboardType: TextInputType.text,
-              //         decoration: InputDecoration(
-              //             filled: true,
-              //             border: OutlineInputBorder(
-              //                 borderRadius: BorderRadius.circular(5))),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('ระดับความรุนแรงของอุบัติเหตุ'),
+                title: const Text('หายใจหรือไม่'),
                 subtitle: Container(
                     height: 40,
                     padding: const EdgeInsets.all(2),
@@ -175,7 +149,7 @@ class _AccidentState extends State<Accident> {
                                       borderRadius: const BorderRadius.only(
                                           bottomLeft: Radius.circular(5),
                                           topLeft: Radius.circular(5))),
-                                  child: Text("เล็กน้อย",
+                                  child: Text("หายใจ",
                                       style: TextStyle(
                                           color: selected_breathe == 1
                                               ? Colors.grey
@@ -199,7 +173,7 @@ class _AccidentState extends State<Accident> {
                                         ? Colors.white
                                         : Colors.grey,
                                   ),
-                                  child: Text("ปานกลาง",
+                                  child: Text("ไม่หายใจ",
                                       style: TextStyle(
                                           color: selected_breathe == 2
                                               ? Colors.grey
@@ -225,7 +199,7 @@ class _AccidentState extends State<Accident> {
                                       borderRadius: const BorderRadius.only(
                                           bottomRight: Radius.circular(5),
                                           topRight: Radius.circular(5))),
-                                  child: Text("รุนแรง",
+                                  child: Text("ไม่แน่ใจ",
                                       style: TextStyle(
                                           color: selected_breathe == 3
                                               ? Colors.grey

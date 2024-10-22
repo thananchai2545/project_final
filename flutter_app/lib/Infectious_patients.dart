@@ -9,21 +9,41 @@ class InfectiousPatients extends StatefulWidget {
 }
 
 class _InfectiousPatientsState extends State<InfectiousPatients> {
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController name_lastname = TextEditingController();
   TextEditingController _age = TextEditingController();
   TextEditingController id_card = TextEditingController();
-  TextEditingController _sex = TextEditingController();
+  int _sex = 0;
   TextEditingController _tel = TextEditingController();
   void _nextMap() {
-    Map<String, dynamic> data = {
-      'name_lastname': name_lastname.text,
-      'age': _age.text,
-      'id_card': id_card.text,
-      'sex': _sex.text,
-      'tel': _tel.text,
-    };
-    context.push('/infectiousPatients/map', extra: data);
+    if (_formKey.currentState!.validate()) {
+      if (_sex == 0) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              'กรุณาระบุเพศ',
+              style: TextStyle(fontSize: 18),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Map<String, dynamic> data = {
+          'name_lastname': name_lastname.text,
+          'age': _age.text,
+          'id_card': id_card.text,
+          'sex': _sex,
+          'tel': _tel.text,
+        };
+        context.push('/infectiousPatients/map', extra: data);
+      }
+    }
   }
 
   @override
@@ -33,7 +53,7 @@ class _InfectiousPatientsState extends State<InfectiousPatients> {
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยสภาวะแพร่เชื้อ",
+              text: "ผู้ป่วยโรคติดต่อ",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -68,6 +88,12 @@ class _InfectiousPatientsState extends State<InfectiousPatients> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกชื่อ-นามสกุล';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
@@ -81,34 +107,122 @@ class _InfectiousPatientsState extends State<InfectiousPatients> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกอายุ';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('เลขบัตรประตัวประชาชน'),
-                    subtitle: TextFormField(
-                      controller: id_card,
-                      style: const TextStyle(color: Colors.black),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5))),
-                    ),
-                  ),
+                  // ListTile(
+                  //   contentPadding: EdgeInsets.zero,
+                  //   title: const Text('เลขบัตรประตัวประชาชน'),
+                  //   subtitle: TextFormField(
+                  //     controller: id_card,
+                  //     style: const TextStyle(color: Colors.black),
+                  //     keyboardType: TextInputType.text,
+                  //     decoration: InputDecoration(
+                  //         filled: true,
+                  //         border: OutlineInputBorder(
+                  //             borderRadius: BorderRadius.circular(5))),
+                  //   ),
+                  // ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('เพศ'),
-                    subtitle: TextFormField(
-                      controller: _sex,
-                      style: const TextStyle(color: Colors.black),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5))),
-                    ),
+                    subtitle: Container(
+                        height: 40,
+                        padding: const EdgeInsets.all(2),
+                        margin: const EdgeInsets.only(top: 10),
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        decoration: const BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _sex = 1;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: _sex == 1
+                                              ? Colors.white
+                                              : Colors.grey,
+                                          borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(5),
+                                              topLeft: Radius.circular(5))),
+                                      child: Text("ชาย",
+                                          style: TextStyle(
+                                              color: _sex == 1
+                                                  ? Colors.grey
+                                                  : Colors.white,
+                                              fontSize: 17)),
+                                    ))),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child:
+                                    Container(color: Colors.white, width: 1)),
+                            Expanded(
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _sex = 2;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: _sex == 2
+                                            ? Colors.white
+                                            : Colors.grey,
+                                      ),
+                                      child: Text("หญิง",
+                                          style: TextStyle(
+                                              color: _sex == 2
+                                                  ? Colors.grey
+                                                  : Colors.white,
+                                              fontSize: 17)),
+                                    ))),
+                            Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child:
+                                    Container(color: Colors.white, width: 1)),
+                            Expanded(
+                                child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _sex = 3;
+                                      });
+                                    },
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: _sex == 3
+                                              ? Colors.white
+                                              : Colors.grey,
+                                          borderRadius: const BorderRadius.only(
+                                              bottomRight: Radius.circular(5),
+                                              topRight: Radius.circular(5))),
+                                      child: Text("ไม่ระบุ",
+                                          style: TextStyle(
+                                              color: _sex == 3
+                                                  ? Colors.grey
+                                                  : Colors.white,
+                                              fontSize: 17)),
+                                    ))),
+                          ],
+                        )),
                   ),
+
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('หมายเลขโทรศัพท์'),
@@ -120,6 +234,12 @@ class _InfectiousPatientsState extends State<InfectiousPatients> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุหมายเลขโทรศัพท์';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   Container(

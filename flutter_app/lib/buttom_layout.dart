@@ -16,11 +16,7 @@ class _ButtomLayoutState extends State<ButtomLayout> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = [
-    HomePage(),
-    ListPage(),
-    Profile()
-  ];
+  static const List<Widget> _widgetOptions = [HomePage(), Profile()];
 
   Future<void> _onItemTapped(int index) async {
     final isValid = await AuthService().validateNavigationToProtectedRoute();
@@ -48,10 +44,6 @@ class _ButtomLayoutState extends State<ButtomLayout> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'หน้าหลัก',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'รายการ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

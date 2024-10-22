@@ -23,7 +23,7 @@
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
     "npm": "^10.7.0",
-    "sweetalert2": "^11.11.0",
+    "sweetalert2": "^11.14.2",
     "v-viewer": "^3.0.11",
     "vee-validate": "^4.5.8",
     "vue": "^3.4.21",

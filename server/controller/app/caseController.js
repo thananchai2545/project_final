@@ -4,10 +4,9 @@ const moment = require('moment');
 exports.create = (req, res) => {
     var case_image = [];
     const { data_patient } = req.body
-    const { case_number_patients, case_breathe, case_symtomSelect, case_other_symptoms, case_landmark, case_name, case_tel, case_idcard, case_drugallergy, case_type, member_id } = JSON.parse(data_patient);
-    // console.log(data_patient);
+    const { case_breathe, case_symtomSelect, case_other_symptoms, case_landmark, case_name, case_tel, case_type, member_id, case_lat, case_lng, case_status } = JSON.parse(data_patient);
+    var date_inform = new Date();
 
-    // console.log(data_patient);
     if (req.files.length > 0) {
         case_image = req.files.map(item => item.path);
     }
@@ -18,8 +17,8 @@ exports.create = (req, res) => {
     db.query(sql, (err, results_number) => {
         if (err) throw err;
         let number = ''
-        const case_date = new Date();
-        // console.log(results_number);
+
+
         if (results_number.length > 0) {
             number = parseInt(results_number[0].case_number) + 1;
             number = number.toString().padStart(4, '0')
@@ -28,8 +27,8 @@ exports.create = (req, res) => {
         }
 
 
-        const sql_insert = 'INSERT INTO case_data (case_number,case_number_patients , case_tel,case_location_landmark, case_breathing, case_other_symptom ,case_idcard,case_date,case_type,member_id) VALUES (?,?,?,?,?,?,?,?,?,?)';
-        db.query(sql_insert, [number, case_number_patients, case_tel, case_landmark, case_breathe, case_other_symptoms, case_idcard, case_date, case_type, member_id], (err, result) => {
+        const sql_insert = 'INSERT INTO case_data (case_number , case_tel,case_landmark, case_breathing, case_other_symptom ,case_type,member_id,case_lat,case_lng,case_name,case_status,date_inform) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
+        db.query(sql_insert, [number, case_tel, case_landmark, case_breathe, case_other_symptoms, case_type, member_id, case_lat, case_lng, case_name, case_status, date_inform], (err, result) => {
             if (err) {
                 throw err;
             }
@@ -51,9 +50,13 @@ exports.create = (req, res) => {
                     if (err) {
                         throw err;
                     }
-                    res.json({
+                    res.status(200).json({
                         status: 'success',
                     });
+                });
+            } else {
+                res.status(200).json({
+                    status: 'success',
                 });
             }
 

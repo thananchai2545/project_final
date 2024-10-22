@@ -12,7 +12,7 @@ class NonEmergencyPatientsHealth extends StatefulWidget {
 
 class _NonEmergencyPatientsHealthState
     extends State<NonEmergencyPatientsHealth> {
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   Map<String, dynamic> data = {};
   TextEditingController symptom = TextEditingController();
   TextEditingController disease = TextEditingController();
@@ -25,14 +25,16 @@ class _NonEmergencyPatientsHealthState
   }
 
   void _nextAppointment() {
-    data.addAll({
-      'symptom': symptom.text,
-      'disease': disease.text,
-      'drug_allergy': drug_allergy.text,
-      'doctor': doctor.text
-    });
-    // print(data);
-    context.push('/non_emergency_patients/health/appointment', extra: data);
+    if (_formKey.currentState!.validate()) {
+      data.addAll({
+        'symptom': symptom.text,
+        'disease': disease.text,
+        'drug_allergy': drug_allergy.text,
+        'doctor': doctor.text
+      });
+      // print(data);
+      context.push('/non_emergency_patients/health/appointment', extra: data);
+    }
   }
 
   @override
@@ -42,7 +44,7 @@ class _NonEmergencyPatientsHealthState
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยฉุกเฉินไม่ฉุกเฉิน",
+              text: "ผู้ป่วยทั่วไป",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -77,6 +79,12 @@ class _NonEmergencyPatientsHealthState
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุอาการเบื้องต้น';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(

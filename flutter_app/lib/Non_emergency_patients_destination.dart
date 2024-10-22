@@ -42,7 +42,7 @@ class _NonEmergencyPatientsDestinationState
         firstDate: DateTime(2000),
         lastDate: DateTime(2101));
     if (pickedDate != null) {
-      String formattedDate = DateFormat('dd/MM/yyyy ').format(pickedDate);
+      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate);
       setState(() {
         _dateController.text = formattedDate;
       });
@@ -97,51 +97,56 @@ class _NonEmergencyPatientsDestinationState
   Future<void> _report() async {
     final token = await AuthService().loadToken();
     final id = await AuthService().loadMemberId();
-    print(data);
-    try {
-      var request = http.post(
-          Uri.parse('${Config.API_URL}/api-app/non-emergency/create'),
-          headers: {
-            "Authorization": 'bearer $token',
-          },
-          body: {
-            'name_lastname': data['name_lastname'],
-            'age': data['age'],
-            'id_card': data['id_card'],
-            'sex': data['selected_sex'].toString(),
-            'drug_allergy': data['drug_allergy'],
-            'doctor': data['doctor'],
-            'tel': data['tel'],
-            'address': data['address'],
-            'landmark': data['landmarks'],
-            'disease': data['disease'],
-            'symptom': data['symptom'],
-            'date_service': _dateController.text,
-            'time_service': DateFormat('kk:mm').format(time),
-            'member_id': id.toString(),
-            'hospital_id': hospital_id
-          }).then((response) {
-        if (response.statusCode == 200) {
-          showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text(
-                'แจ้งเหตุเสร็จสิ้น',
-                style: TextStyle(fontSize: 18),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => context.push('/'),
-                  child: const Text('OK'),
+    print(_dateController.text);
+    if (_formKey.currentState!.validate()) {
+      try {
+        var request = http.post(
+            Uri.parse('${Config.API_URL}/api-app/non-emergency/create'),
+            headers: {
+              "Authorization": 'bearer $token',
+            },
+            body: {
+              'name_lastname': data['name_lastname'],
+              'age': data['age'],
+              'id_card': data['id_card'],
+              'sex': data['selected_sex'].toString(),
+              'drug_allergy': data['drug_allergy'],
+              'doctor': data['doctor'],
+              'tel': data['tel'],
+              'address': data['address'],
+              'landmark': data['landmarks'],
+              'disease': data['disease'],
+              'symptom': data['symptom'],
+              'date_service': _dateController.text,
+              'time_service': DateFormat('kk:mm').format(time),
+              'member_id': id.toString(),
+              'hospital_id': hospital_id.toString(),
+              'lat': data['lat'].toString(),
+              'lng': data['lng'].toString(),
+              'status': '1'
+            }).then((response) {
+          if (response.statusCode == 200) {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text(
+                  'แจ้งเหตุเสร็จสิ้น',
+                  style: TextStyle(fontSize: 18),
                 ),
-              ],
-            ),
-          );
-        }
-        print("Response status: ${response.statusCode}");
-        print("Response body: ${response.body}");
-      });
-    } catch (e) {}
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => context.push('/'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
+          print("Response status: ${response.statusCode}");
+          print("Response body: ${response.body}");
+        });
+      } catch (e) {}
+    }
   }
 
   @override
@@ -151,7 +156,7 @@ class _NonEmergencyPatientsDestinationState
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยฉุกเฉินไม่ฉุกเฉิน",
+              text: "ผู้ป่วยทั่วไป",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -177,7 +182,7 @@ class _NonEmergencyPatientsDestinationState
                 children: [
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('วันที่ที่ต้องการใช้บริการ'),
+                    title: const Text('วันที่ต้องการใช้บริการ'),
                     subtitle: TextFormField(
                       keyboardType: TextInputType.none,
                       readOnly: true,
@@ -190,7 +195,7 @@ class _NonEmergencyPatientsDestinationState
                       onTap: _selectDate,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          return 'โปรดเลือกวันเกิด';
+                          return 'กรุณาเลือกวันที่ต้องการใช้บริการ';
                         }
                         return null;
                       },
@@ -255,6 +260,11 @@ class _NonEmergencyPatientsDestinationState
                                       setState(() {
                                         hospital_id = value!;
                                       });
+                                    },
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'กรุณาเลือกโรงพยาบาล';
+                                      }
                                     },
                                     items: snapshot.data
                                         .map<DropdownMenuItem<String>>((value) {

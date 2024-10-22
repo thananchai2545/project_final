@@ -4,8 +4,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:go_router/go_router.dart';
 
 class AccidentContact extends StatefulWidget {
-  final List data_patient;
-  const AccidentContact({super.key, required this.data_patient});
+  final Map<String, dynamic> dataPatient;
+  const AccidentContact({super.key, required this.dataPatient});
 
   @override
   _AccidentContactState createState() => _AccidentContactState();
@@ -19,17 +19,14 @@ class _AccidentContactState extends State<AccidentContact> {
 
   void _accident_image() {
     if (_formKey.currentState!.validate()) {
-      List dataPatient = widget.data_patient;
-      dataPatient[0]['case_name'] = _nameController.text;
-      dataPatient[0]['case_tel'] = _telController.text.replaceAll(" ", "");
-      dataPatient[0]['case_idcard'] =
-          _idcardController.text.replaceAll('-', '');
-      // print(data_patient);
+      // print(_nameController.text);
+      Map<String, dynamic> dataPatient = widget.dataPatient;
+      dataPatient.addAll(
+          {'case_name': _nameController.text, 'case_tel': _telController.text});
+
       context.push(
           '/emergencypatient/accident/accident_map/accident_contact/accident_image',
           extra: dataPatient);
-      //   // print(_idcardController.text.replaceAll('-', '').length);
-      // print(_telController.text.replaceAll(" ", ""));
     }
   }
 
@@ -71,22 +68,24 @@ class _AccidentContactState extends State<AccidentContact> {
                   contentPadding: EdgeInsets.zero,
                   title: const Text('ชื่อ - นามสกุล'),
                   subtitle: TextFormField(
-                    controller: _nameController,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                  ),
+                      controller: _nameController,
+                      style: const TextStyle(color: Colors.black),
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุชื่อ - นามสกุล';
+                        }
+                        return null;
+                      }),
                 ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('เบอร์โทรศัพท์'),
                   subtitle: TextFormField(
-                    // inputFormatters: [
-                    //   MaskTextInputFormatter(mask: '### ### ####')
-                    // ],
                     controller: _telController,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.number,
@@ -94,41 +93,39 @@ class _AccidentContactState extends State<AccidentContact> {
                         filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5))),
-                    // validator: (text) {
-                    //   if (text == null ||
-                    //       text.isEmpty ||
-                    //       text.replaceAll(" ", "").length != 10) {
-                    //     return 'หมายเลขโทรศัพท์ไม่ถูกต้อง';
-                    //   }
-                    //   return null;
-                    // },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'กรุณาระบุเบอร์โทรศัพท์';
+                      }
+                      return null;
+                    },
                   ),
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text('หมายเลขบัตรประชาชน 13 หลัก'),
-                  subtitle: TextFormField(
-                    // inputFormatters: [
-                    //   MaskTextInputFormatter(mask: '#-####-#####-##-#')
-                    // ],
-                    controller: _idcardController,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        // hintText: "0-0000-00000-00-0",
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                    // validator: (text) {
-                    //   if (text == null ||
-                    //       text.isEmpty ||
-                    //       text.replaceAll('-', '').length != 13) {
-                    //     return 'หมายเลขบัตรประชาชนไม่ถูกต้อง';
-                    //   }
-                    //   return null;
-                    // },
-                  ),
-                ),
+                // ListTile(
+                //   contentPadding: EdgeInsets.zero,
+                //   title: const Text('หมายเลขบัตรประชาชน 13 หลัก'),
+                //   subtitle: TextFormField(
+                //     // inputFormatters: [
+                //     //   MaskTextInputFormatter(mask: '#-####-#####-##-#')
+                //     // ],
+                //     controller: _idcardController,
+                //     style: const TextStyle(color: Colors.black),
+                //     keyboardType: TextInputType.number,
+                //     decoration: InputDecoration(
+                //         // hintText: "0-0000-00000-00-0",
+                //         filled: true,
+                //         border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(5))),
+                //     // validator: (text) {
+                //     //   if (text == null ||
+                //     //       text.isEmpty ||
+                //     //       text.replaceAll('-', '').length != 13) {
+                //     //     return 'หมายเลขบัตรประชาชนไม่ถูกต้อง';
+                //     //   }
+                //     //   return null;
+                //     // },
+                //   ),
+                // ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(

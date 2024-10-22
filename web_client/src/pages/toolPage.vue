@@ -7,7 +7,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-sm-6">
-                <h4>ข้อมูลเครื่องมือ</h4>
+                <h4>ข้อมูลอุปกรณ์</h4>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -16,7 +16,7 @@
                     class="btn btn-primary"
                     @click="openModal"
                   >
-                    เพิ่มเครื่องมือ
+                    เพิ่มอุปกรณ์
                   </button>
                 </ol>
               </div>

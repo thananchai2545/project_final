@@ -20,7 +20,7 @@ class InfectiousPatientsTravel extends StatefulWidget {
 }
 
 class _InfectiousPatientsTravelState extends State<InfectiousPatientsTravel> {
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController _dateController = TextEditingController();
   DateTime time = DateTime.now();
   String hospital_id = '';
@@ -73,49 +73,56 @@ class _InfectiousPatientsTravelState extends State<InfectiousPatientsTravel> {
 
   Future<void> _report() async {
     final token = await AuthService().loadToken();
-    print(_dateController.text);
-    try {
-      var request = http.post(
-          Uri.parse('${Config.API_URL}/api-app/infectious/create'),
-          headers: {
-            "Authorization": 'bearer $token',
-          },
-          body: {
-            'name_lastname': data['name_lastname'],
-            'age': data['age'],
-            'id_card': data['id_card'],
-            'sex': data['sex'],
-            'tel': data['tel'],
-            'address': data['address'],
-            'landmark': data['landmark'],
-            'name_disease': data['name_disease'],
-            'symptom': data['symptom'],
-            'period': data['period'],
-            'date_service': _dateController.text,
-            'time_service': DateFormat('kk:mm').format(time),
-            'hospital_id': hospital_id
-          }).then((response) {
-        if (response.statusCode == 200) {
-          showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text(
-                'แจ้งเหตุเสร็จสิ้น',
-                style: TextStyle(fontSize: 18),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => context.push('/'),
-                  child: const Text('OK'),
+    final member_id = await AuthService().loadMemberId();
+    print('adad');
+    if (_formKey.currentState!.validate()) {
+      try {
+        var request = http.post(
+            Uri.parse('${Config.API_URL}/api-app/infectious/create'),
+            headers: {
+              "Authorization": 'bearer $token',
+            },
+            body: {
+              'name_lastname': data['name_lastname'],
+              'age': data['age'],
+              'id_card': data['id_card'],
+              'sex': data['sex'].toString(),
+              'tel': data['tel'],
+              'address': data['address'],
+              'landmark': data['landmark'],
+              'name_disease': data['name_disease'],
+              'symptom': data['symptom'],
+              'period': data['period'],
+              'date_service': _dateController.text,
+              'time_service': DateFormat('kk:mm').format(time),
+              'hospital_id': hospital_id,
+              'member_id': member_id,
+              'status': '1',
+              'lat': data['lat'].toString(),
+              'lng': data['lng'].toString(),
+            }).then((response) {
+          if (response.statusCode == 200) {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text(
+                  'แจ้งเหตุเสร็จสิ้น',
+                  style: TextStyle(fontSize: 18),
                 ),
-              ],
-            ),
-          );
-        }
-        print("Response status: ${response.statusCode}");
-        print("Response body: ${response.body}");
-      });
-    } catch (e) {}
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => context.push('/'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
+          print("Response status: ${response.statusCode}");
+          print("Response body: ${response.body}");
+        });
+      } catch (e) {}
+    }
   }
 
   Future<List<Hospital>> readHospital() async {
@@ -149,7 +156,7 @@ class _InfectiousPatientsTravelState extends State<InfectiousPatientsTravel> {
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยสภาวะแพร่เชื้อ",
+              text: "ผู้ป่วยโรคติดต่อ",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -188,7 +195,7 @@ class _InfectiousPatientsTravelState extends State<InfectiousPatientsTravel> {
                       onTap: _selectDate,
                       validator: (text) {
                         if (text == null || text.isEmpty) {
-                          return 'โปรดเลือกวันเกิด';
+                          return 'โปรดระบุวันที่ที่ต้องการใช้บริการ';
                         }
                         return null;
                       },
@@ -249,6 +256,11 @@ class _InfectiousPatientsTravelState extends State<InfectiousPatientsTravel> {
                                       alignment: Alignment.centerLeft,
                                       child: Text('เลือกโรงพยาบาล'),
                                     ),
+                                    validator: (value) {
+                                      if (value == null) {
+                                        return 'กรุณาเลือกโรงพยาบาล';
+                                      }
+                                    },
                                     onChanged: (value) {
                                       setState(() {
                                         hospital_id = value!;

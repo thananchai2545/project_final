@@ -19,14 +19,34 @@ class _NonEmergencyPatientsState extends State<NonEmergencyPatients> {
   final TextEditingController tel = TextEditingController();
 
   void _nextHealth() {
-    Map<String, dynamic> data = {
-      'name_lastname': name_lastname.text,
-      'age': age.text,
-      'selected_sex': selected_sex,
-      'id_card': id_card.text,
-      'tel': tel.text
-    };
-    context.push('/non_emergency_patients/health', extra: data);
+    if (_formKey.currentState!.validate()) {
+      if (selected_sex == 0) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              'กรุณาระบุเพศ',
+              style: TextStyle(fontSize: 18),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Map<String, dynamic> data = {
+          'name_lastname': name_lastname.text,
+          'age': age.text,
+          'selected_sex': selected_sex,
+          'id_card': id_card.text,
+          'tel': tel.text
+        };
+        context.push('/non_emergency_patients/health', extra: data);
+      }
+    }
   }
 
   @override
@@ -36,7 +56,7 @@ class _NonEmergencyPatientsState extends State<NonEmergencyPatients> {
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยฉุกเฉินไม่ฉุกเฉิน",
+              text: "ผู้ป่วยทั่วไป",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -64,13 +84,19 @@ class _NonEmergencyPatientsState extends State<NonEmergencyPatients> {
                   contentPadding: EdgeInsets.zero,
                   title: const Text('ชื่อ-นามสกุล'),
                   subtitle: TextFormField(
-                    // controller: other_symptoms,
+                    controller: name_lastname,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'กรุณาระบุชื่อ-นามสกุล';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 ListTile(
@@ -82,6 +108,12 @@ class _NonEmergencyPatientsState extends State<NonEmergencyPatients> {
                         filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'กรุณาระบุอายุ';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 ListTile(
@@ -174,30 +206,36 @@ class _NonEmergencyPatientsState extends State<NonEmergencyPatients> {
                         ],
                       )),
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text('หมายเลขบัตรประชาชน'),
-                  subtitle: TextFormField(
-                    // controller: other_symptoms,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                  ),
-                ),
+                // ListTile(
+                //   contentPadding: EdgeInsets.zero,
+                //   title: const Text('หมายเลขบัตรประชาชน'),
+                //   subtitle: TextFormField(
+                //     controller: id_card,
+                //     style: const TextStyle(color: Colors.black),
+                //     keyboardType: TextInputType.text,
+                //     decoration: InputDecoration(
+                //         filled: true,
+                //         border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(5))),
+                //   ),
+                // ),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text('เบอร์โทรศัพท์'),
                   subtitle: TextFormField(
-                    // controller: other_symptoms,
+                    controller: tel,
                     style: const TextStyle(color: Colors.black),
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5))),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'กรุณาระบุเบอร์โทรศัพท์';
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(

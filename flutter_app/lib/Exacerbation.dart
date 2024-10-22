@@ -19,16 +19,35 @@ class _ExacerbationState extends State<Exacerbation> {
   int selected_sex = 0;
 
   void _nextEvent() {
-    Map<String, dynamic> data = {
-      'name_lastname': _name_lastname.text,
-      'age': _age.text,
-      'id_card': id_card.text,
-      'drug_allergy': drug_allergy.text,
-      'prescription_drugs': prescription_drugs.text,
-      'sex': selected_sex
-    };
-    print(data);
-    context.push('/emergencypatient/exacerbation/event', extra: data);
+    if (_formKey.currentState!.validate()) {
+      if (selected_sex == 0) {
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              'กรุณาระบุเพศ',
+              style: TextStyle(fontSize: 18),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'OK'),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        Map<String, dynamic> data = {
+          'name_lastname': _name_lastname.text,
+          'age': _age.text,
+          'id_card': id_card.text,
+          'drug_allergy': drug_allergy.text,
+          'prescription_drugs': prescription_drugs.text,
+          'sex': selected_sex
+        };
+        context.push('/emergencypatient/exacerbation/event', extra: data);
+      }
+    }
   }
 
   @override
@@ -71,6 +90,12 @@ class _ExacerbationState extends State<Exacerbation> {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาระบุชื่อ-นามสกุล';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     ListTile(
@@ -84,6 +109,12 @@ class _ExacerbationState extends State<Exacerbation> {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาระบุอายุ';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     ListTile(
@@ -181,19 +212,19 @@ class _ExacerbationState extends State<Exacerbation> {
                             ],
                           )),
                     ),
-                    ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Text('เลขประจำตัวประชาชน'),
-                      subtitle: TextFormField(
-                        controller: id_card,
-                        style: TextStyle(color: Colors.black),
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                      ),
-                    ),
+                    // ListTile(
+                    //   contentPadding: EdgeInsets.zero,
+                    //   title: Text('เลขประจำตัวประชาชน'),
+                    //   subtitle: TextFormField(
+                    //     controller: id_card,
+                    //     style: TextStyle(color: Colors.black),
+                    //     keyboardType: TextInputType.text,
+                    //     decoration: InputDecoration(
+                    //         filled: true,
+                    //         border: OutlineInputBorder(
+                    //             borderRadius: BorderRadius.circular(5))),
+                    //   ),
+                    // ),
                     ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text('ประวัติการแพ้ยา หรือโรคประจำตัวอื่น ๆ'),
@@ -205,6 +236,12 @@ class _ExacerbationState extends State<Exacerbation> {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาระบุประวัติการแพ้ยา หรือโรคประจำตัวอื่น ๆ';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     ListTile(
@@ -218,6 +255,12 @@ class _ExacerbationState extends State<Exacerbation> {
                             filled: true,
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'กรุณาระบุการใช้ยาในปัจจุบัน (ยาประจำตัว)';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                     Container(

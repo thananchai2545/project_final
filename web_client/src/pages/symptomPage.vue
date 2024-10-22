@@ -262,10 +262,6 @@ export default {
         return false;
       }
 
-      if (this.setToolOption.length == 0) {
-        alert("ขออภัยไม่ได้ระบุเครื่องมือ");
-        return false;
-      }
       axios
         .post(
           import.meta.env.VITE_API_URL + "/symptom/store",

@@ -53,10 +53,11 @@
                     <th class="text-center">#</th>
                     <th>ชื่อ - นามสกุล</th>
                     <th>เบอร์โทรศัพท์</th>
-                    <th>เลขบัตรประชาชน</th>
+
                     <th>ประเภท</th>
-                    <th>อาการ</th>
-                    <th>เครื่องมือ</th>
+
+                    <th>สถานะ</th>
+
                     <!-- <th style="width: 45%">เครื่องมือ</th> -->
                     <th style="width: 20%" class="text-center">จัดการ</th>
                   </tr>
@@ -65,31 +66,40 @@
                   <tr v-for="(item, index) in exacerbation" :key="item.id">
                     <td class="text-center">{{ index + 1 }}</td>
                     <td>{{ item.name_lastname }}</td>
-                    <td>{{ item.case_tel }}</td>
-                    <td>{{ item.case_idcard }}</td>
+                    <td>{{ item.tel }}</td>
+                    <td>ผู้ป่วยโรคกำเริบ</td>
+
                     <td>
-                      {{ item.type }}
+                      <div v-if="item.status === 'inform'">
+                        รอการอนุมัติเหตุ
+                      </div>
+                      <div v-if="item.status === 'receive'">
+                        เตรียมอุปกรณ์ออกไปรับผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'departure'">
+                        กำลังออกไปรับผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'destination'">
+                        ถึงจุดหมายของผู้ป่วย
+                      </div>
+                      <div v-if="item.status === 'hospital'">
+                        กำลังนำผู้ป่วยส่งโรงพยาบาล
+                      </div>
+                      <div v-if="item.status === 'complete'">เสร็จสิ้น</div>
                     </td>
-                    <td></td>
-                    <td></td>
 
-                    <td class="text-center">
-                      <!-- <button
-                        @click="case_detail(key)"
-                        type="button"
-                        class="btn btn-primary"
-                      >
-                        ดูเพิ่มเติม <i class="fas fa-eye"></i>
-                      </button> -->
-
-                      &nbsp;
-                      <button
-                        type="button"
-                        @click="openModal(item)"
-                        class="btn btn-warning"
-                      >
-                        รับเคส
-                      </button>
+                    <td class="">
+                      <div class="row d-flex justify-content-center">
+                        <div class="col-6">
+                          <button
+                            @click="case_detail(item.id)"
+                            type="button"
+                            class="btn btn-primary"
+                          >
+                            ดูเพิ่มเติม <i class="fas fa-eye"></i>
+                          </button>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -133,6 +143,12 @@ export default {
     this.getData();
   },
   methods: {
+    case_detail(id) {
+      this.$router.push({
+        path: `/case/exacerbation/` + id,
+      });
+      // console.log(id);
+    },
     async getData() {
       const token = localStorage.getItem("token");
       await axios

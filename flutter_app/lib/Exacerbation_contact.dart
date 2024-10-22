@@ -26,52 +26,57 @@ class _ExacerbationContactState extends State<ExacerbationContact> {
 
   Future<void> _report() async {
     final token = await AuthService().loadToken();
-    print(data);
-    try {
-      var request = http.post(
-          Uri.parse('${Config.API_URL}/api-app/exacerbation/create'),
-          headers: {
-            "Authorization": 'bearer $token',
-          },
-          body: {
-            'name_lastname': data['name_lastname'],
-            'age': data['age'],
-            'id_card': data['id_card'],
-            'drug_allergy': data['drug_allergy'],
-            'prescription_drugs': data['prescription_drugs'],
-            'sex': data['sex'].toString(),
-            'date_incident': data['date_incident'],
-            'location_incident': data['location_incident'],
-            'symptom': data['symptom'],
-            'period': data['period'],
-            'assistance': data['assistance'],
-            'address': data['address'],
-            'landmarks': data['landmarks'],
-            'name_lastname_Informer': name_lastname_Informer.text,
-            'relationship': relationship.text,
-            'tel': tel.text
-          }).then((response) {
-        if (response.statusCode == 200) {
-          showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: const Text(
-                'แจ้งเหตุเสร็จสิ้น',
-                style: TextStyle(fontSize: 18),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => context.push('/'),
-                  child: const Text('OK'),
+    final id = await AuthService().loadMemberId();
+    if (_formKey.currentState!.validate()) {
+      try {
+        var request = http.post(
+            Uri.parse('${Config.API_URL}/api-app/exacerbation/create'),
+            headers: {
+              "Authorization": 'bearer $token',
+            },
+            body: {
+              'name_lastname': data['name_lastname'],
+              'age': data['age'],
+              'id_card': data['id_card'],
+              'drug_allergy': data['drug_allergy'],
+              'prescription_drugs': data['prescription_drugs'],
+              'sex': data['sex'].toString(),
+              'date_incident': data['date_incident'],
+              'location_incident': data['location_incident'],
+              'symptom': data['symptom'],
+              'period': data['period'],
+              'assistance': data['assistance'],
+              'address': data['address'],
+              'landmarks': data['landmarks'],
+              'name_lastname_Informer': name_lastname_Informer.text,
+              'relationship': relationship.text,
+              'tel': tel.text,
+              'member_id': id,
+              'status': '1',
+              'violence': data['violence'].toString(),
+              'lat': data['lat'].toString(),
+              'lng': data['lng'].toString(),
+            }).then((response) {
+          if (response.statusCode == 200) {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text(
+                  'แจ้งเหตุเสร็จสิ้น',
+                  style: TextStyle(fontSize: 18),
                 ),
-              ],
-            ),
-          );
-        }
-        print("Response status: ${response.statusCode}");
-        print("Response body: ${response.body}");
-      });
-    } catch (e) {}
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => context.push('/'),
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            );
+          }
+        });
+      } catch (e) {}
+    }
   }
 
   @override
@@ -116,6 +121,12 @@ class _ExacerbationContactState extends State<ExacerbationContact> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกชื่อ-นามสกุล';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
@@ -130,6 +141,12 @@ class _ExacerbationContactState extends State<ExacerbationContact> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกความสัมพันธ์กับผู้ป่วย';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
@@ -143,6 +160,12 @@ class _ExacerbationContactState extends State<ExacerbationContact> {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณากรอกหมายเลขโทรศัพท์';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   SizedBox(

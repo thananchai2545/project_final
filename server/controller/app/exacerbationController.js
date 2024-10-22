@@ -1,9 +1,10 @@
 const db = require('../../config/db');
 exports.create = (req, res) => {
-    //อย่าลืมแยกเวลาและวันที่เกิดเหตุ
-    const { name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks, name_lastname_Informer, relationship, tel } = req.body
-    const sql = 'INSERT INTO exacerbation ( name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks,name_lastname_Informer,relationship,tel) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    db.query(sql, [name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks, name_lastname_Informer, relationship, tel], (err, result) => {
+
+    var date_inform = new Date();
+    const { name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks, name_lastname_Informer, relationship, tel, member_id, status, violence, lat, lng } = req.body
+    const sql = `INSERT INTO exacerbation ( name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks,name_lastname_Informer,relationship,tel,member_id,status,violence,lat,lng,date_inform) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+    db.query(sql, [name_lastname, age, id_card, drug_allergy, prescription_drugs, sex, date_incident, location_incident, symptom, period, assistance, address, landmarks, name_lastname_Informer, relationship, tel, member_id, status, violence, lat, lng, date_inform], (err, result) => {
         if (err) {
             throw err;
         }
@@ -12,6 +13,5 @@ exports.create = (req, res) => {
         });
     });
 
-    // console.log(req.body);
-    // res.send('232')
+
 };

@@ -13,7 +13,7 @@ class InfectiousPatientsDiagnose extends StatefulWidget {
 
 class _InfectiousPatientsDiagnoseState
     extends State<InfectiousPatientsDiagnose> {
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
   TextEditingController name_disease = TextEditingController();
   TextEditingController symptom = TextEditingController();
   TextEditingController period = TextEditingController();
@@ -26,13 +26,15 @@ class _InfectiousPatientsDiagnoseState
   }
 
   void _nextTravel() {
-    data.addAll({
-      'name_disease': name_disease.text,
-      'symptom': symptom.text,
-      'period': period.text
-    });
-    // print(data);
-    context.push('/infectiousPatients/map/diagnose/travel', extra: data);
+    if (_formKey.currentState!.validate()) {
+      data.addAll({
+        'name_disease': name_disease.text,
+        'symptom': symptom.text,
+        'period': period.text
+      });
+      // print(data);
+      context.push('/infectiousPatients/map/diagnose/travel', extra: data);
+    }
   }
 
   @override
@@ -42,7 +44,7 @@ class _InfectiousPatientsDiagnoseState
         title: RichText(
           // textAlign: TextAlign.center,
           text: const TextSpan(
-              text: "ผู้ป่วยสภาวะแพร่เชื้อ",
+              text: "ผู้ป่วยโรคติดต่อ",
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.pink,
@@ -77,6 +79,12 @@ class _InfectiousPatientsDiagnoseState
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุชื่อของโรคหรือสภาวะการติดเชื้อ';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
@@ -90,11 +98,36 @@ class _InfectiousPatientsDiagnoseState
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุอาการของโรค';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: const Text('ระยะเวลาของการติดเชื้อ'),
+                    subtitle: TextFormField(
+                      controller: period,
+                      style: const TextStyle(color: Colors.black),
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'กรุณาระบุระยะเวลาของการติดเชื้อ';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('สถานที่เดินทางไปในช่วง 3 วันที่ผ่านมา'),
                     subtitle: TextFormField(
                       controller: period,
                       style: const TextStyle(color: Colors.black),

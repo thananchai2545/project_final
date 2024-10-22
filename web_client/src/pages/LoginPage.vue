@@ -24,61 +24,66 @@
 </template>
 
 <script>
-import {
-    useRouter
-} from "vue-router";
+import { useRouter } from "vue-router";
 import axios from "axios";
-import {
-    Form,
-    Field,
-    ErrorMessage
-} from "vee-validate";
+import { Form, Field, ErrorMessage } from "vee-validate";
 import * as Yup from "yup";
 
 const router = useRouter();
 
 const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username is required"),
-    password: Yup.string().required("Password is required"),
-    // Add more validation rules as needed
+  username: Yup.string().required("Username is required"),
+  password: Yup.string().required("Password is required"),
+  // Add more validation rules as needed
 });
 
 export default {
-    components: {
-        Form,
-        Field,
-        ErrorMessage,
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
+  setup() {
+    return {
+      validationSchema,
+    };
+  },
+  mounted() {
+    if (localStorage.getItem("reloaded")) {
+      localStorage.removeItem("reloaded");
+    } else {
+      localStorage.setItem("reloaded", "1");
+      location.reload();
+    }
+  },
+  methods: {
+    initFunction: function () {
+      document.body.classList.toggle("hold-transition");
+      document.body.classList.toggle("login-page");
     },
-    setup() {
-        return {
-            validationSchema,
-        };
-    },
-    methods: {
-        initFunction: function () {
-            document.body.classList.toggle("hold-transition");
-            document.body.classList.toggle("login-page");
-        },
-        submitForm() {
-            let self = this;
+    submitForm() {
+      let self = this;
 
-            axios
-            .post( import.meta.env.VITE_API_URL +"/auth/login", {
-                    username: this.username,
-                    password: this.password,
-                })
-                .then(function (response) {
-                //   localStorage.setItem("token",response.data.token)
-                //   console.log(response.data.token);
-                  self.$store.commit('setToken', response.data.token)
-                  self.$router.push('/user')
-                });
-        },
+      axios
+        .post(import.meta.env.VITE_API_URL + "/auth/login", {
+          username: this.username,
+          password: this.password,
+        })
+        .then(function (response) {
+          //   localStorage.setItem("token",response.data.token)
+          // console.log(response.data.data[0].id);
+          self.$store.commit("setToken", response.data.token);
+          self.$store.commit("setId", response.data.data[0].id);
+          self.$router.push("/user");
+        });
     },
-    created: function () {
-        this.initFunction();
-    },
+  },
+
+  created: function () {
+    this.initFunction();
+  },
 };
 
-methods: {}
+methods: {
+}
 </script>
