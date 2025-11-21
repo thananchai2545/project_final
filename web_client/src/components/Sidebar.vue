@@ -1,88 +1,139 @@
 <template lang="">
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <div class="sidebar">
-        <!--
+      <!--
   Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="image"> <img :src="profilePath" class="img-circle elevation-2" alt="User Image">
-            </div>
-            <div class="info"> <a href="#" class="d-block">Alexander Pierce</a> </div>
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img
+            :src="profilePath"
+            class="img-circle elevation-2"
+            alt="User Image"
+          />
         </div>
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <!-- <a href="user" class="nav-link" v-bind:class="activeMenu('user')">
+        <div class="info"><a href="#" class="d-block">Alexander Pierce</a></div>
+      </div>
+      <nav class="mt-2">
+        <ul
+          class="nav nav-pills nav-sidebar flex-column"
+          data-widget="treeview"
+          role="menu"
+          data-accordion="false"
+        >
+          <li class="nav-item">
+            <!-- <a href="user" class="nav-link" v-bind:class="activeMenu('user')">
                     </a>  -->
-                    <router-link to="/user" class="nav-link" v-bind:class="activeMenu('user')">
-                        <i class="nav-icon fas
-  fa-user"></i>
-                        <p> ข้อมูลผู้ใช้งานระบบ </p>
-                    </router-link>
-                </li>
-                <li class="nav-item ">
-                    <router-link to="/tool" class="nav-link" v-bind:class="activeMenu('tool')">
-                        <i class="nav-icon fas fa-toolbox"></i>
-                        <p> อุปกรณ์ </p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/symptom" class="nav-link" v-bind:class="activeMenu('symptom')"> <i class="nav-icon fas fa-copy"></i>
-                        <p> อาการ
-                        </p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/hospital" class="nav-link" v-bind:class="activeMenu('hospital')"> <i class="nav-icon fas fa-hospital"></i>
-                        <p> โรงพยาบาล
-                        </p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <router-link to="/ambulance" class="nav-link" v-bind:class="activeMenu('ambulance')"> <i class="nav-icon fa fa-ambulance"></i>
-                        <p> รถพยาบาล
-                        </p>
-                    </router-link>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" v-bind:class="activeMenu('case')">
-                    <i class="nav-icon fas fa-chart-pie"></i>
-                        <p> เคส <i class="right fas fa-angle-left"></i> </p>
-                    </a>
-                    
-                    <ul class="nav nav-treeview" id="activeMenuChild">
-                        <li class="nav-item"> 
-                            <router-link to="/case/accident" class="nav-link" v-bind:class="activeMenuChild('accident')"><i class="far fa-circle nav-icon"></i>
-                                <p> อุบัติเหตุ <i class="right fas fa-angle-left"></i> </p>
-                            </router-link> 
-                        </li>
-                        <li class="nav-item"> 
-                            <router-link to="/case/exacerbation" class="nav-link" v-bind:class="activeMenuChild('exacerbation')"><i class="far fa-circle nav-icon"></i>
-                                <p> โรคกำเริบ <i class="right fas fa-angle-left"></i> </p>
-                            </router-link> 
-                        </li>
-                        <li class="nav-item"> 
-                            <router-link to="/case/non_emergency" class="nav-link" v-bind:class="activeMenuChild('non_emergency')"><i class="far fa-circle nav-icon"></i>
-                                <p> ผู้ป่วยทั่วไป <i class="right fas fa-angle-left"></i> </p>
-                            </router-link> 
-                        </li>
-                       <li class="nav-item"> 
-                            <router-link to="/case/infectious" class="nav-link" v-bind:class="activeMenuChild('infectious')"><i class="far fa-circle nav-icon"></i>
-                                <p> ผู้ป่วยโรคติดต่อ <i class="right fas fa-angle-left"></i> </p>
-                            </router-link> 
-                        </li>
-                    </ul>
+            <router-link
+              to="/user"
+              class="nav-link"
+              v-bind:class="activeMenu('user')"
+            >
+              <i class="nav-icon fas fa-user"></i>
+              <p>ข้อมูลผู้ใช้งานระบบ</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/tool"
+              class="nav-link"
+              v-bind:class="activeMenu('tool')"
+            >
+              <i class="nav-icon fas fa-toolbox"></i>
+              <p>อุปกรณ์</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/symptom"
+              class="nav-link"
+              v-bind:class="activeMenu('symptom')"
+            >
+              <i class="nav-icon fas fa-copy"></i>
+              <p>อาการ</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/hospital"
+              class="nav-link"
+              v-bind:class="activeMenu('hospital')"
+            >
+              <i class="nav-icon fas fa-hospital"></i>
+              <p>โรงพยาบาล</p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              to="/ambulance"
+              class="nav-link"
+              v-bind:class="activeMenu('ambulance')"
+            >
+              <i class="nav-icon fa fa-ambulance"></i>
+              <p>รถพยาบาล</p>
+            </router-link>
+          </li>
+          <li class="nav-item" :v-bind:class="activeMenu('case')"
+            :class="{ 'menu-is-opening menu-open': segment1 === 'case' }"
+          >
+            <a href="#" class="nav-link" :class="activeMenu('case')">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>เคส <i class="right fas fa-angle-left"></i></p>
+            </a>
 
-                </li>
-
-                <li @click="handleSignout" class="nav-item"> <a href="#" class="nav-link">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <p> ออกจากระบบ </p>
-                    </a> </li>
-                
+            <ul class="nav nav-treeview" id="activeMenuChild">
+              <li class="nav-item">
+                <router-link
+                  to="/case/accident"
+                  class="nav-link"
+                  v-bind:class="activeMenuChild('accident')"
+                  ><i class="far fa-circle nav-icon"></i>
+                  <p>อุบัติเหตุ <i class="right fas fa-angle-left"></i></p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/case/exacerbation"
+                  class="nav-link"
+                  v-bind:class="activeMenuChild('exacerbation')"
+                  ><i class="far fa-circle nav-icon"></i>
+                  <p>โรคกำเริบ <i class="right fas fa-angle-left"></i></p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/case/non_emergency"
+                  class="nav-link"
+                  v-bind:class="activeMenuChild('non_emergency')"
+                  ><i class="far fa-circle nav-icon"></i>
+                  <p>ผู้ป่วยทั่วไป <i class="right fas fa-angle-left"></i></p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  to="/case/infectious"
+                  class="nav-link"
+                  v-bind:class="activeMenuChild('infectious')"
+                  ><i class="far fa-circle nav-icon"></i>
+                  <p>
+                    ผู้ป่วยโรคติดต่อ <i class="right fas fa-angle-left"></i>
+                  </p>
+                </router-link>
+              </li>
             </ul>
-        </nav> <!-- /.sidebar-menu -->
-    </div> <!-- /.sidebar -->
-</aside>
+          </li>
+
+          <li @click="handleSignout" class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="fas fa-sign-out-alt"></i>
+              <p>ออกจากระบบ</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
 </template>
 
 <script>
@@ -140,4 +191,4 @@ export default {
 };
 </script>
 
-<style ></style>
+<style></style>

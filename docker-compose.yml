@@ -41,9 +41,15 @@ services:
     container_name: vue_client
     restart: always
     ports:
-      - "3000:80"
+      - "3000:5173"
     depends_on:
       - nodeapp
+    volumes:
+      - ./web_client:/app:cached    # สมมติใน Dockerfile ของคุณ workdir คือ /app
+      - /app/node_modules   # ป้องกัน node_modules host มา override
+    tty: true # ให้ container รันแบบ interactive
+    stdin_open: true # ให้ container รันแบบ interactive
 
 volumes:
   mariadb_data:
+  web_client_data:

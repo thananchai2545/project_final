@@ -11,7 +11,7 @@ RUN npm install
 COPY . .
 
 # เปิด port 5173 (Vite default) หรือ 8080 (Vue CLI)
-EXPOSE 80
+EXPOSE 5173
 
 # รัน dev server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "80"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
