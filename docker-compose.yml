@@ -1,0 +1,49 @@
+services:
+  mariadb:
+    image: mariadb:10.11 # เปลี่ยนจาก mysql:8.0 เป็น mariadb
+    container_name: mariadb_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3307:3306" # host 3307 -> container 3306
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --bind-address=0.0.0.0
+
+  nodeapp:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: node_server
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mariadb
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: db_spacial_patients
+    
+    depends_on:
+      - mariadb
+
+  client_app:
+    build:
+      context: ./web_client
+      dockerfile: Dockerfile
+    container_name: vue_client
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - nodeapp
+
+volumes:
+  mariadb_data:

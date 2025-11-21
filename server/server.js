@@ -19,6 +19,10 @@ app.use('/upload', express.static(path.join(__dirname, 'upload')));
 const testRoutes = require('./routes/test');
 app.use('/api/test', testRoutes);
 
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
 //web
 const authRoutes = require('./routes/auth');
 app.use('/api/auth', authRoutes);

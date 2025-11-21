@@ -9,6 +9,8 @@ export default defineConfig({
     'process.env': process.env
   },
   server: {
+    host: '0.0.0.0',
+    port: 80,
     proxy: {
       '/api': {
         target: process.env.VITE_API_URL,

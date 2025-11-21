@@ -1,8 +1,9 @@
 const mysql = require('mysql');
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'mariadb',
+    port: 3306,
     user: 'root',
-    password: 'root',
+    password: '1234',
     database: 'db_spacial_patients',
     multipleStatements: true,
     dateStrings: 'date'
