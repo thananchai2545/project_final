@@ -1,21 +1,21 @@
 services:
-  mariadb:
-    image: mariadb:10.11 # เปลี่ยนจาก mysql:8.0 เป็น mariadb
-    container_name: mariadb_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: myapp
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: 1234
-    ports:
-      - "3307:3306" # host 3307 -> container 3306
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_general_ci
-      - --bind-address=0.0.0.0
+  # mariadb:
+  #   image: mariadb:10.11 # เปลี่ยนจาก mysql:8.0 เป็น mariadb
+  #   container_name: mariadb_db
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_DATABASE: myapp
+  #     MYSQL_USER: myuser
+  #     MYSQL_PASSWORD: 1234
+  #   ports:
+  #     - "3307:3306" # host 3307 -> container 3306
+  #   volumes:
+  #     - mariadb_data:/var/lib/mysql
+  #   command:
+  #     - --character-set-server=utf8mb4
+  #     - --collation-server=utf8mb4_general_ci
+  #     - --bind-address=0.0.0.0
 
   nodeapp:
     build: 
@@ -31,8 +31,8 @@ services:
       DB_PASSWORD: 1234
       DB_NAME: db_spacial_patients
     
-    depends_on:
-      - mariadb
+    # depends_on:
+      # - mariadb
 
   client_app:
     build:
@@ -51,5 +51,5 @@ services:
     stdin_open: true # ให้ container รันแบบ interactive
 
 volumes:
-  mariadb_data:
+  # mariadb_data:
   web_client_data:

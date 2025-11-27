@@ -50,57 +50,59 @@
               </div>
             </div>
             <div class="card-body">
-              <table
-                id="example"
-                class="table table-striped table-sm table-bordered"
-                style="width: 100%"
-              >
-                <thead>
-                  <tr>
-                    <th class="text-center" style="width: 5%">#</th>
-                    <th class="text-center" style="width: 10%">รูปภาพ</th>
-                    <th style="width: 20%">ชื่อเครื่องมือ</th>
-                    <th style="width: 40%">คำอธิบาย</th>
-                    <th style="width: 20%" class="text-center">จัดการ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item, index) in tool" :key="item.id">
-                    <td class="text-center">{{ index + 1 }}</td>
-                    <td
-                      class="d-flex justify-content-center"
-                      v-if="item.tool_img == null"
-                    >
-                      <p>-</p>
-                    </td>
-                    <td class="d-flex justify-content-center" v-else>
-                      <img
-                        style="padding: 5px; width: 100px"
-                        :src="img_ + item.tool_img"
-                        alt=""
-                      />
-                    </td>
-                    <td>{{ item.tool_name }}</td>
-                    <td>{{ item.tool_description }}</td>
-                    <td class="text-center">
-                      <button
-                        type="button"
-                        @click="openModalEdit(item)"
-                        class="btn btn-warning"
+              <div class="table-responsive">
+                <table
+                  id="example"
+                  class="table table-striped table-sm table-bordered"
+                  style="width: 100%"
+                >
+                  <thead>
+                    <tr>
+                      <th class="text-center" style="width: 5%">#</th>
+                      <th class="text-center" style="width: 10%">รูปภาพ</th>
+                      <th style="width: 20%">ชื่อเครื่องมือ</th>
+                      <th style="width: 40%">คำอธิบาย</th>
+                      <th style="width: 20%" class="text-center">จัดการ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(item, index) in tool" :key="item.id">
+                      <td class="text-center">{{ index + 1 }}</td>
+                      <td
+                        class="d-flex justify-content-center"
+                        v-if="item.tool_img == null"
                       >
-                        แก้ไข</button
-                      >&nbsp;
-                      <button
-                        type="button"
-                        @click="handleDelete(item)"
-                        class="btn btn-danger"
-                      >
-                        ลบ
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                        <p>-</p>
+                      </td>
+                      <td class="d-flex justify-content-center" v-else>
+                        <img
+                          style="padding: 5px; width: 100px"
+                          :src="img_ + item.tool_img"
+                          alt=""
+                        />
+                      </td>
+                      <td>{{ item.tool_name }}</td>
+                      <td>{{ item.tool_description }}</td>
+                      <td class="text-center">
+                        <button
+                          type="button"
+                          @click="openModalEdit(item)"
+                          class="btn btn-warning"
+                        >
+                          แก้ไข</button
+                        >&nbsp;
+                        <button
+                          type="button"
+                          @click="handleDelete(item)"
+                          class="btn btn-danger"
+                        >
+                          ลบ
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <!-- /.card -->

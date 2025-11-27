@@ -41,8 +41,6 @@ exports.updateStatus = (req, res) => {
 }
 
 exports.selectAmbulance = (req, res) => {
-
-
     const { id, user_id, tool, ambulance_id, status } = req.body
     var date_receive = new Date()
     const type = 'infectious'

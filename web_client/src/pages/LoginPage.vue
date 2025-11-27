@@ -1,6 +1,6 @@
 <template lang="">
 <div class="login-box">
-    <div class="login-logo"> <a href="../../index2.html"><b>Admin</b>LTE</a> </div> <!-- /.login-logo -->
+    <div class="login-logo"> <a href="../../index2.html"><b>ambulance</b></a> </div> <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in

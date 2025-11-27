@@ -333,6 +333,7 @@ export default {
       $("#exampleModal").modal("show");
     },
     handleEditAmbulance() {
+      console.log("asdasd")
       if (this.ambulance_registration == "") {
         alert("ขออภัยไม่ได้ระบุอาการ");
         return false;
@@ -347,7 +348,7 @@ export default {
       const token = localStorage.getItem("token");
       axios
         .post(
-          import.meta.env.VITE_API_URL + "/infectious/update",
+          import.meta.env.VITE_API_URL + "/ambulance/update",
           {
             id: this.id,
             driver_name: this.driver_name,
